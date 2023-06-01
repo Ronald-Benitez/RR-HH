@@ -21,7 +21,7 @@ export default function Logout() {
           width="16"
           height="16"
           fill="currentColor"
-          class="bi bi-box-arrow-right"
+          className="bi bi-box-arrow-right"
           viewBox="0 0 16 16"
         >
           <path

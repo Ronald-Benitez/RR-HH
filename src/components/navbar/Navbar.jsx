@@ -7,7 +7,7 @@ import ResetPassword from "../utils/ResetPassword";
 
 export default function Navbar() {
   return (
-    <div>
+    <div className="sticky-top">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid ">
           <Link className="navbar-brand" to="/">
@@ -29,15 +29,12 @@ export default function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div
-            className="collapse navbar-collapse d-flex mb-3 row align-items-center"
-            id="navbarNav"
-          >
+          <div className="collapse navbar-collapse " id="navbarNav">
             <ul className="navbar-nav col justify-content-center">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Home
-                </a>
+                <Link className="navbar-brand" to="/areas">
+                  <small>Areas</small>
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
@@ -52,13 +49,13 @@ export default function Navbar() {
               <li className="nav-item">
                 <a className="nav-link disabled">Disabled</a>
               </li>
-            </ul>
-            <ul className="navbar-nav ms-auto col-1">
-              <li className="nav-item mx-1">
-                <ResetPassword />
-              </li>
-              <li className="nav-item">
-                <Logout />
+              <li className="nav-item ms-auto row ">
+                <div className="col-12 col-md-6">
+                  <ResetPassword />
+                </div>
+                <div className="col-12 col-md-6">
+                  <Logout />
+                </div>
               </li>
             </ul>
           </div>

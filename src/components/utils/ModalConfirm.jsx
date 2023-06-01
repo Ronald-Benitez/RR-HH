@@ -21,8 +21,8 @@ export default function ModalConfirm({
         content: {
           backgroundColor: "#18191A",
           color: "#fff",
-          width: "40%",
-          height: "40%",
+          maxHeight: "50vh",
+          maxWidth: "40vw",
           margin: "auto",
           display: "flex",
           flexDirection: "column",
@@ -34,14 +34,14 @@ export default function ModalConfirm({
       <h2>{title}</h2>
       <p>{message}</p>
       <div className="d-flex justify-content-evenly w-100 mt-4">
-        <button className="btn btn-outline-light" onClick={onConfirm}>
+        <button className="btn btn-outline-light w-25" onClick={onConfirm}>
           Confirmar
         </button>
         <button
-          className="btn btn-outline-light"
+          className="btn btn-outline-light w-25"
           onClick={() => {
             setShow(false);
-            onCancel();
+            onCancel ? onCancel() : null;
           }}
         >
           Cancelar

@@ -1,0 +1,28 @@
+#pagination-first-page {
+  background-color: white;
+  border-radius: 0%;
+}
+
+#pagination-last-page {
+  background-color: white;
+  border-radius: 0%;
+}
+
+#pagination-previous-page {
+  background-color: white;
+  border-radius: 0%;
+}
+
+#pagination-next-page {
+  background-color: white;
+  border-radius: 0%;
+}
+
+.fimDOL {
+  background-color: black;
+  color: white;
+  font-size: small;
+  border: 1px solid white;
+  padding: 5px;
+  margin: 5px;
+}
