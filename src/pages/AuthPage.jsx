@@ -1,7 +1,7 @@
 import React from "react";
 import { login } from "../firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 export default function AuthPage() {
@@ -22,7 +22,10 @@ export default function AuthPage() {
         // Signed in
         toast.success("Inicio de sesión exitoso");
         // ...
-        history.push("/");
+        setTimeout(() => {
+          history.push("/");
+        }
+        , 500);
       })
       .catch((error) => {
         const errorCode = error.code;
