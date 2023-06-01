@@ -3,17 +3,34 @@ import { login } from "../firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 import { set, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { resetPassword } from "../firebase/auth";
+import firebaseErrorMessages from "../utils/firebaseErrorMessages";
 
 export default function AuthPage() {
   const { register, handleSubmit } = useForm();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const history = useHistory();
 
-  const errorResponseMessages = {
-    "auth/invalid-email": "El correo electrónico no es válido",
-    "auth/wrong-password": "La contraseña es incorrecta",
-    "auth/user-not-found": "El usuario no existe",
+  const handleResetPassword = () => {
+    if (email === "") {
+      toast.error("Ingrese un correo electrónico");
+    } else {
+      resetPassword(email)
+        .then(() => {
+          // Password reset email sent!
+          toast.success(
+            "Se ha enviado un correo electrónico para restablecer la contraseña"
+          );
+          setIsOpen(false);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          toast.error(firebaseErrorMessages[errorCode]);
+        });
+    }
   };
 
   const onSubmit = () => {
@@ -21,17 +38,14 @@ export default function AuthPage() {
       .then((userCredential) => {
         // Signed in
         toast.success("Inicio de sesión exitoso");
+        localStorage.setItem("email", email);
         // ...
-        setTimeout(() => {
-          history.push("/");
-        }
-        , 500);
+
+        history.push("/");
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        toast.error(errorResponseMessages[errorCode]);
+        toast.error(firebaseErrorMessages[errorCode]);
       });
   };
 
@@ -69,6 +83,13 @@ export default function AuthPage() {
                   Iniciar sesión
                 </button>
               </form>
+              <button
+                type="button"
+                className="btn btn-outline-light mt-2"
+                onClick={() => handleResetPassword()}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
             </div>
           </div>
         </div>

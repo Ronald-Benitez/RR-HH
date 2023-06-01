@@ -1,0 +1,12 @@
+{
+  "auth/invalid-email": "El correo electrónico no es válido",
+  "auth/wrong-password": "La contraseña es incorrecta",
+  "auth/user-not-found": "El usuario no existe",
+  "auth/email-already-in-use": "El correo electrónico ya está en uso",
+  "auth/weak-password": "La contraseña debe tener al menos 6 caracteres",
+  "auth/operation-not-allowed": "Operación no permitida",
+  "auth/account-exists-with-different-credential": "Ya existe una cuenta con la dirección de correo electrónico que proporcionaste",
+  "auth/invalid-credential": "Credenciales no válidas",
+  "auth/invalid-verification-code": "Código de verificación no válido",
+  "auth/invalid-verification-id": "ID de verificación no válido"
+}
