@@ -29,33 +29,26 @@ export default function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse " id="navbarNav">
-            <ul className="navbar-nav col justify-content-center">
+          <div
+            className="collapse navbar-collapse"
+            id="navbarNav"
+          >
+            <ul className="navbar-nav d-flex justify-content-center">
               <li className="nav-item">
                 <Link className="navbar-brand" to="/areas">
                   <small>Areas</small>
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Features
-                </a>
+                <Link className="navbar-brand" to="/employees">
+                  <small>Empleados</small>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Pricing
-                </a>
+                <ResetPassword />
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled">Disabled</a>
-              </li>
-              <li className="nav-item ms-auto row ">
-                <div className="col-12 col-md-6">
-                  <ResetPassword />
-                </div>
-                <div className="col-12 col-md-6">
-                  <Logout />
-                </div>
+                <Logout />
               </li>
             </ul>
           </div>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { updateArea } from "../../firebase/areas";
 import Modal from "react-modal";
+
+import { updateArea } from "../../firebase/areas";
+import ModalStyle from "../../utils/ModalStyle";
 
 export default function ModalEdit({
   data,
@@ -40,22 +42,7 @@ export default function ModalEdit({
     <Modal
       isOpen={edit}
       onRequestClose={() => setEdit(false)}
-      style={{
-        overlay: {
-          backgroundColor: "rgba(0,0,0,0.5)",
-        },
-        content: {
-          backgroundColor: "#18191A",
-          color: "#fff",
-          margin: "auto",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          maxHeight: "80vh",
-          maxWidth: "60vw",
-        },
-      }}
+      style={ModalStyle}
     >
       <h2>Editar área</h2>
       <form onSubmit={handleEdit} className="col-12 col-md-6 p-4">

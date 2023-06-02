@@ -1,6 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
+
 import { createArea } from "../../firebase/areas";
+import ModalStyle from "../../utils/ModalStyle";
 
 export default function CreateModal({ toaster, reload, setReload }) {
   Modal.setAppElement("#root");
@@ -30,22 +32,7 @@ export default function CreateModal({ toaster, reload, setReload }) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setIsOpen(false)}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0,0,0,0.5)",
-          },
-          content: {
-            backgroundColor: "#18191A",
-            color: "#fff",
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            maxHeight: "80vh",
-            maxWidth: "60vw",
-          },
-        }}
+        style={ModalStyle}
       >
         <h2>Registrar área</h2>
         <form onSubmit={handleSubmit} className="col-12 col-md-6 p-4">

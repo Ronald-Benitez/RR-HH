@@ -21,16 +21,17 @@ const Dropdown = ({ components, placeholder }) => {
         {placeholder}
       </button>
       {isOpen && (
-        <div className="dropdown-menu show">
-          {components.map((component, index) => (
-            <div
-              key={index}
-              className="dropdown-item"
-              onClick={handleLinkClick}
-            >
-              {component}
-            </div>
-          ))}
+        <div className="position-absolute" style={{ with: "200px" }}>
+          <div className="bg-dark ">
+            {components.map((component, index) => (
+              <div
+                key={index}
+                onClick={handleLinkClick}
+              >
+                {component}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
