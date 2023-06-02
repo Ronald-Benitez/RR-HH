@@ -5,7 +5,6 @@ import { getEmployees, deleteEmployee } from "../../firebase/employees";
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
-import ModalEdit from "./ModalEdit";
 import SeeModal from "./SeeModal";
 import CreateModal from "./CreateModal";
 
@@ -96,7 +95,6 @@ export default function Table({ toaster, reload, setReload }) {
             onClick={() => {
               setEmployeeData(row);
               setEdit(true);
-
             }}
           >
             <svg
@@ -166,14 +164,6 @@ export default function Table({ toaster, reload, setReload }) {
           setIsOpen(false);
         }}
         onCancel={() => setIsOpen(false)}
-      />
-      <ModalEdit
-        data={employeeData}
-        setReload={setReload.bind(this)}
-        reload={reload}
-        toaster={toaster}
-        setEdit={setEdit.bind(this)}
-        edit={edit}
       />
       <SeeModal data={employeeData} see={see} setSee={setSee.bind(this)} />
       <CreateModal

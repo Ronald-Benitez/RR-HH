@@ -9,7 +9,7 @@ export default function SeeModal({ see, setSee, data }) {
   moment.locale("es");
   return (
     <Modal isOpen={see} onRequestClose={() => setSee(false)} style={ModalStyle}>
-      <h2>Información del empleado</h2>
+      <h2>Información del empleado </h2>
 
       <div className="mb-3">
         <div className="container">
@@ -64,6 +64,9 @@ export default function SeeModal({ see, setSee, data }) {
               </p>
               <p>
                 <strong>DUI:</strong> <span id="dui">{data.dui}</span>
+              </p>
+              <p>
+                <strong>Banco:</strong> <span id="bank">{data.bank}</span>
               </p>
               <p>
                 <strong>Cuenta Bancaria:</strong>{" "}

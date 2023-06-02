@@ -24,14 +24,19 @@ const DropdownLinker = ({ links, placeholder }) => {
       {isOpen && (
         <div className="dropdown-menu show">
           {links.map((link, index) => (
-            <Link
-              key={index}
-              className="dropdown-item"
-              to={link.url}
-              onClick={handleLinkClick}
-            >
-              {link.label}
-            </Link>
+            <>
+              <Link
+                key={index}
+                className="dropdown-item"
+                to={link.url}
+                onClick={handleLinkClick}
+              >
+                {link.label}
+              </Link>
+              {index < links.length - 1 && (
+                <div className="dropdown-divider"></div>
+              )}
+            </>
           ))}
         </div>
       )}

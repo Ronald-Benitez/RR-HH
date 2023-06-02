@@ -1,0 +1,129 @@
+import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import moment from "moment/moment";
+
+import Navbar from "../components/navbar/Navbar";
+import { getEmployees } from "../firebase/employees";
+import CalculatePayroll from "../utils/PayrollCalculator";
+import TableEmployee from "../components/payroll/TableEmployee";
+import TableEmployer from "../components/payroll/TableEmployer";
+import Totals from "../components/payroll/Totals";
+
+export default function PayRoll() {
+  const [employees, setEmployees] = useState([]);
+  const [payroll, setPayroll] = useState([]);
+  const [switchTable, setSwitchTable] = useState(false);
+  const [date, setDate] = useState(moment());
+  const [seeTotals, setSeeTotals] = useState(false);
+  const [totals, setTotals] = useState({});
+
+  const sumTotals = () => {
+    const totals = {
+      totalSalaries: 0,
+      totalAfpEmployee: 0,
+      totalIsssEmployee: 0,
+      totalRenta: 0,
+      totalAfpEmployer: 0,
+      totalIsssEmployer: 0,
+      totalExtraHours: 0,
+      totalBonuses: 0,
+      totalVacations: 0,
+      totalAguinaldo: 0,
+    };
+
+    payroll.forEach((employee) => {
+      totals.totalSalaries += employee.base;
+      totals.totalAfpEmployee += employee.afp.employee;
+      totals.totalIsssEmployee += employee.isss.employee;
+      totals.totalRenta += employee.renta;
+      totals.totalAfpEmployer += employee.afp.employer;
+      totals.totalIsssEmployer += employee.isss.employer;
+      totals.totalExtraHours += employee.extras.overtime;
+      totals.totalBonuses += employee.extras.bonuses;
+      totals.totalVacations += employee.extras.vacation;
+      totals.totalAguinaldo += employee.aguinaldo;
+    });
+
+    setTotals(totals);
+  };
+
+  useEffect(() => {
+    getEmployees()
+      .then((employees) => {
+        const data = employees.docs.map((employee) => ({
+          id: employee.id,
+          salary: employee.data().salary,
+          name: employee.data().names + " " + employee.data().lastNames,
+          cargo: employee.data().position,
+          fechaIngreso: employee.data().entryDate,
+        }));
+        setEmployees(data);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, [date]);
+
+  useEffect(() => {
+    const data = employees.map((employee) => CalculatePayroll(employee, date));
+    setPayroll(data);
+    sumTotals();
+  }, [employees, date]);
+
+  return (
+    <div>
+      <Navbar />
+
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <p className="text-center fs-2">
+          Planilla{" "}
+          <small className="fs-5">{moment(date).format("MMMM YYYY")}</small>
+        </p>
+
+        <div className="row justify-content-center w-75">
+          <div className="col-12 col-md-3">
+            <label htmlFor="date">Fecha</label>
+            <input
+              type="date"
+              id="date"
+              className="form-control"
+              value={date.format("YYYY-MM-DD")}
+              onChange={(e) => setDate(moment(e.target.value))}
+            />
+          </div>
+          <div className="col-12 col-md-3">
+            <label htmlFor="date">Tipo de planilla</label>
+            <select
+              className="form-control"
+              onChange={(e) => setSwitchTable(e.target.value === "true")}
+            >
+              <option value={false}>Empleado</option>
+              <option value={true}>Empleador</option>
+            </select>
+          </div>
+          <div className="col-12 col-md-3">
+            <label htmlFor="date">Totales</label>
+            <button
+              className="form-control"
+              onClick={() => {
+                setSeeTotals(true);
+                sumTotals();
+              }}
+            >
+              Ver totales
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {switchTable ? (
+        <TableEmployer data={payroll} />
+      ) : (
+        <TableEmployee data={payroll} />
+      )}
+      <Totals data={totals} see={seeTotals} setSee={setSeeTotals.bind(this)} />
+
+      <Toaster />
+    </div>
+  );
+}

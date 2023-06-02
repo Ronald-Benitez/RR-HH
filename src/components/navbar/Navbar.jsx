@@ -29,10 +29,7 @@ export default function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div
-            className="collapse navbar-collapse"
-            id="navbarNav"
-          >
+          <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav d-flex justify-content-center">
               <li className="nav-item">
                 <Link className="navbar-brand" to="/areas">
@@ -40,9 +37,13 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="navbar-brand" to="/employees">
-                  <small>Empleados</small>
-                </Link>
+                <DropdownLinker
+                  placeholder={"Empleados"}
+                  links={[
+                    { label: "Empleados", url: "/employees" },
+                    { label: "Planilla", url: "/payroll" },
+                  ]}
+                />
               </li>
               <li className="nav-item">
                 <ResetPassword />

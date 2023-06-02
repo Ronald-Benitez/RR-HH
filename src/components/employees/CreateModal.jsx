@@ -84,6 +84,7 @@ export default function CreateModal({
       dui,
       bankAccount,
       address,
+      bank,
     };
     if (data) {
       NewData.id = data.id;
@@ -96,7 +97,7 @@ export default function CreateModal({
           clear();
         })
         .catch((error) => {
-          toaster.error(error.message);
+          toaster.error("Error al actualizar el empleado");
         });
     } else {
       createEmployee(NewData)
@@ -107,7 +108,7 @@ export default function CreateModal({
           clear();
         })
         .catch((error) => {
-          toaster.error(error.message);
+          toaster.error("Error al crear el empleado");
         });
     }
   };

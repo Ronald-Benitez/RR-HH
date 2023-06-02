@@ -1,0 +1,65 @@
+{
+  "isss": {
+    "patronal": 0.075,
+    "laboral": 0.03
+  },
+  "afp": {
+    "patronal": 0.0875,
+    "laboral": 0.0725
+  },
+  "insaforp": 0.01,
+  "renta": {
+    "tramo1": {
+      "min": 0.01,
+      "max": 472,
+      "porcentaje": 0,
+      "exceso": 0,
+      "cuota": 0
+    },
+    "tramo2": {
+      "min": 472.01,
+      "max": 895.24,
+      "porcentaje": 0.1,
+      "exceso": 472,
+      "cuota": 17.67
+    },
+    "tramo3": {
+      "min": 895.25,
+      "max": 2038.1,
+      "porcentaje": 0.2,
+      "exceso": 895.24,
+      "cuota": 60
+    },
+    "tramo4": {
+      "min": 2038.11,
+      "max": 9999,
+      "porcentaje": 0.3,
+      "exceso": 2038.1,
+      "cuota": 288.57
+    }
+  },
+  "vacaciones": {
+    "dias": 15,
+    "porcentaje": 0.3
+  },
+  "aguinaldo": {
+    "tramo1": {
+      "min": 1,
+      "max": 3,
+      "dias": 15
+    },
+    "tramo2": {
+      "min": 3.01,
+      "max": 10,
+      "dias": 19
+    },
+    "tramo3": {
+      "min": 10.01,
+      "max": 99,
+      "dias": 21
+    }
+  },
+  "horasExtra": 0.25,
+  "asueto": 2,
+  "descanso": 1
+}
