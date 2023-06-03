@@ -3,22 +3,22 @@ import toast, { Toaster } from "react-hot-toast";
 import moment from "moment/moment";
 
 import Navbar from "../components/navbar/Navbar";
-import { getOvertimes, getOvertime } from "../firebase/overtime";
-import AddOvertimeModal from "../components/overtime/AddOvertimeModal";
-import Table from "../components/overtime/Table";
+import { getBonuses } from "../firebase/bonuses";
+import AddBonusesModal from "../components/bonuses/AddBonusesModal";
+import Table from "../components/bonuses/Table";
 
-export default function Overtime() {
-  const [overtime, setOvertime] = useState([]);
+export default function Bonuses() {
+  const [bonuses, setBonuses] = useState([]);
   const [date, setDate] = useState(moment());
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    getOvertimes(moment(date).format("MMMM-YYYY")).then((overtime) => {
-      const data = overtime.docs.map((overtime) => ({
-        id: overtime.id,
-        ...overtime.data(),
+    getBonuses(moment(date).format("MMMM-YYYY")).then((bonuses) => {
+      const data = bonuses.docs.map((res) => ({
+        id: res.id,
+        ...res.data(),
       }));
-      setOvertime(data || []);
+      setBonuses(data || []);
     });
   }, [date, reload]);
 
@@ -27,7 +27,7 @@ export default function Overtime() {
       <Navbar />
       <div className="">
         <p className="mt-5 text-center fs-2">
-          Horas extraordinarias{" "}
+          Bonos{" "}
           <small className="fs-5">{moment(date).format("MMMM YYYY")}</small>
         </p>
       </div>
@@ -49,22 +49,22 @@ export default function Overtime() {
               <h5 className="text-center"> Registro </h5>
             </div>
             <div className="row mx-1">
-              <AddOvertimeModal
+              <AddBonusesModal
                 toaster={toast}
                 reload={reload}
                 setReload={setReload.bind(this)}
+                dateSelected={moment(date).format("YYYY-MM-DD")}
               />
             </div>
           </div>
         </div>
       </div>
-
       <div className="m-5">
         <Table
           toaster={toast}
+          bonuses={bonuses}
           reload={reload}
           setReload={setReload.bind(this)}
-          overtimes={overtime}
           date={date}
         />
       </div>

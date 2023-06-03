@@ -5,13 +5,13 @@ import moment from "moment/moment";
 import Navbar from "../components/navbar/Navbar";
 import { getEmployees } from "../firebase/employees";
 import { getOvertimes } from "../firebase/overtime";
+import { getBonuses } from "../firebase/bonuses";
 import CalculatePayroll from "../utils/PayrollCalculator";
-import { calculateOvertime } from "../utils/ExtrasCalculator";
+import { calculateOvertime, calculateBonuses } from "../utils/ExtrasCalculator";
 
 import TableEmployee from "../components/payroll/TableEmployee";
 import TableEmployer from "../components/payroll/TableEmployer";
 import Totals from "../components/payroll/Totals";
-import { set } from "react-hook-form";
 
 export default function PayRoll() {
   const [employees, setEmployees] = useState([]);
@@ -21,6 +21,7 @@ export default function PayRoll() {
   const [seeTotals, setSeeTotals] = useState(false);
   const [totals, setTotals] = useState({});
   const [overtime, setOvertime] = useState([]);
+  const [bonuses, setBonuses] = useState([]);
 
   const sumTotals = () => {
     const totals = {
@@ -34,6 +35,7 @@ export default function PayRoll() {
       totalBonuses: 0,
       totalVacations: 0,
       totalAguinaldo: 0,
+      totalInsaforp: 0,
     };
 
     payroll.forEach((employee) => {
@@ -47,6 +49,11 @@ export default function PayRoll() {
       totals.totalBonuses += employee.extras.bonuses;
       totals.totalVacations += employee.extras.vacation;
       totals.totalAguinaldo += employee.aguinaldo;
+      totals.totalInsaforp += employee.insaforp;
+    });
+
+    Object.keys(totals).forEach((key) => {
+      totals[key] = parseFloat(totals[key].toFixed(2));
     });
 
     setTotals(totals);
@@ -78,6 +85,14 @@ export default function PayRoll() {
       }));
       setOvertime(data || []);
     });
+
+    getBonuses(moment(date).format("MMMM-YYYY")).then((bonuses) => {
+      const data = bonuses.docs.map((bonus) => ({
+        id: bonus.id,
+        ...bonus.data(),
+      }));
+      setBonuses(data || []);
+    });
   }, [date]);
 
   useEffect(() => {
@@ -88,14 +103,15 @@ export default function PayRoll() {
   }, [employees, date, overtime]);
 
   const setExtras = () => {
-    const data = calculateOvertime(employees, overtime);
+    calculateOvertime(employees, overtime);
+    calculateBonuses(employees, bonuses);
   };
 
   return (
     <div>
       <Navbar />
 
-      <div className="d-flex flex-column justify-content-center align-items-center">
+      <div className="d-flex flex-column justify-content-center align-items-center mt-4">
         <p className="text-center fs-2">
           Planilla{" "}
           <small className="fs-5">{moment(date).format("MMMM YYYY")}</small>

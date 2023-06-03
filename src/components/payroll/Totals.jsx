@@ -53,14 +53,21 @@ export default function Totals({ see, setSee, data }) {
               <h3 className="h5 font-weight-bold">Patronales</h3>
               <p className="mb-0">AFP: ${totals.totalAfpEmployer}</p>
               <p className="mb-0">ISSS: ${totals.totalIsssEmployer}</p>
+              <p className="mb-0">Insaforp: ${totals.totalInsaforp}</p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
             <div className="text-center p-3">
               <h3 className="h5 font-weight-bold">Extras</h3>
-              <p className="mb-0">Horas extras: ${totals.totalExtraHours}</p>
-              <p className="mb-0">Bonos: ${totals.totalBonuses}</p>
-              <p className="mb-0">Vacaciones: ${totals.totalVacations}</p>
+              <p className="mb-0">
+                Horas extras: ${totals.totalExtraHours}
+              </p>
+              <p className="mb-0">
+                Bonos: ${totals.totalBonuses}
+              </p>
+              <p className="mb-0">
+                Vacaciones: ${totals.totalVacations}
+              </p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">

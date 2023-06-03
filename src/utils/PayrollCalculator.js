@@ -113,7 +113,7 @@ const CalculatePayroll = (data, date) => {
     cargo: data.cargo,
     insaforp,
     aguinaldo: parseFloat(aguinaldo) || 0,
-    totalPatronal,
+    totalPatronal: totalPatronal.toFixed(2),
     bruteSalary,
     totalDeductionsEmployee,
     totalDeductionsEmployer,

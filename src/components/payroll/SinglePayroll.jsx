@@ -45,7 +45,7 @@ export default function SinglePayroll({ see, setSee, data }) {
               Renta: <small>${data?.renta}</small>
             </p>
             <strong>
-              Total descuentos: <small>${data.totalDeductions}</small>
+              Total descuentos: <small>${data.totalDeductionsEmployee}</small>
             </strong>
           </div>
         </div>

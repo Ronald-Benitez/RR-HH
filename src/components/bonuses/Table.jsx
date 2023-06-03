@@ -5,36 +5,36 @@ import moment from "moment/moment";
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
-import { deleteOvertime } from "../../firebase/overtime";
-import AddOvertimeModal from "./AddOvertimeModal";
+import { deleteBonus } from "../../firebase/bonuses";
+import AddBonusesModal from "./AddBonusesModal";
 
-export default function Table({ overtimes, toaster, reload, setReload, date }) {
+export default function Table({ bonuses, toaster, reload, setReload, date }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [selectedOvertime, setSelectedOvertime] = useState({});
+  const [selectedBonus, setSelectedBonus] = useState({});
   const [filteredData, setFilteredData] = useState([]);
 
   const handleFinder = (e) => {
     const value = e.target.value.toLowerCase();
-    const results = overtimes.filter((overtime) => {
-      return overtime.name.toLowerCase().includes(value);
+    const results = bonuses.filter((bonus) => {
+      return bonus.name.toLowerCase().includes(value);
     });
     setFilteredData(results);
   };
 
   useEffect(() => {
-    setData(filteredData.length > 0 ? filteredData : overtimes);
-  }, [overtimes, filteredData]);
+    setData(filteredData.length > 0 ? filteredData : bonuses);
+  }, [bonuses, filteredData]);
 
   useEffect(() => {
     setFilteredData([]);
   }, [date]);
 
   const handleDelete = () => {
-    deleteOvertime(selectedOvertime)
+    deleteBonus(selectedBonus)
       .then(() => {
-        toaster.success("Horas extraordinarias eliminadas exitosamente");
+        toaster.success("Bono eliminado exitosamente");
         setReload(!reload);
       })
       .catch((error) => {
@@ -54,18 +54,13 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
       sortable: true,
     },
     {
-      name: "Horas",
-      selector: (row) => row.hours,
+      name: "Monto",
+      selector: (row) => row.value,
       sortable: true,
     },
     {
-      name: "Tipo",
-      selector: (row) => row.type,
-      sortable: true,
-    },
-    {
-      name: "Valor",
-      selector: (row) => "$" + row.value,
+      name: "Descripción",
+      selector: (row) => row.description,
       sortable: true,
     },
     {
@@ -75,7 +70,7 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           <button
             className="btn btn-outline-warning btn-sm mx-1"
             onClick={() => {
-              setSelectedOvertime(row);
+              setSelectedBonus(row);
               setEdit(true);
             }}
           >
@@ -93,7 +88,7 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           <button
             className="btn btn-outline-danger btn-sm mx-1"
             onClick={() => {
-              setSelectedOvertime(row);
+              setSelectedBonus(row);
               setIsOpen(true);
             }}
           >
@@ -129,9 +124,8 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           </div>
         </div>
       </div>
-
       <DataTable
-        title="Horas extraordinarias"
+        title="Bonos"
         columns={columns}
         data={filteredData.length > 0 ? filteredData : data}
         pagination
@@ -153,21 +147,22 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
       <ModalConfirm
         show={modalIsOpen}
         setShow={setIsOpen}
-        title="Eliminar horas extraordinarias"
-        message="¿Está seguro que desea eliminar estas horas extraordinarias?"
+        title="Eliminar bono"
+        message="¿Está seguro que desea eliminar este bono?"
         onConfirm={() => {
           handleDelete();
           setIsOpen(false);
         }}
         onCancel={() => setIsOpen(false)}
       />
-      <AddOvertimeModal
+      <AddBonusesModal
         setReload={setReload.bind(this)}
         reload={reload}
         edit={edit}
         setEdit={setEdit.bind(this)}
-        data={selectedOvertime}
+        data={selectedBonus}
         toaster={toaster}
+        dateSelected={moment(date).format("YYYY-MM-DD")}
       />
     </>
   );

@@ -181,7 +181,7 @@ export default function AddOvertimeModal({
       >
         <div className="container overflow-auto">
           <h3 className="text-center">
-            {edit ? "Editar" : "Editar"} horas extra
+            {edit ? "Editar" : "Registrar"} horas extra
           </h3>
 
           <div className="modal-body">
@@ -282,7 +282,7 @@ export default function AddOvertimeModal({
                     className="btn btn-outline-light mt-2"
                     onClick={() => {
                       setIsOpen(false);
-                      setEdit(false);
+                      setEdit && setEdit(false);
                       clearFields();
                     }}
                   >

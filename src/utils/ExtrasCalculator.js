@@ -18,3 +18,22 @@ export const calculateOvertime = (data, overtime) => {
     }
   });
 };
+
+export const calculateBonuses = (data, bonuses) => {
+  const updatedData = [...data]; // Crear una copia del arreglo original
+
+  //Clear overtime
+  updatedData.forEach((employee) => {
+    employee.bonuses = 0;
+  });
+
+  Object.values(bonuses).map((row) => {
+    const employee = updatedData.find(
+      (employee) => employee.id === row.employee
+    );
+
+    if (employee) {
+      employee.bonuses += parseFloat(row.value);
+    }
+  });
+};
