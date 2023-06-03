@@ -164,274 +164,279 @@ export default function CreateModal({
         }}
         style={ModalStyle}
       >
-        <h2 className="mt-5 pt-5">
-          {" "}
-          {data ? "Actualizar" : "Registrar"} empleado
-        </h2>
-        <form onSubmit={handleSubmit(handleCreate)}>
-          <div className="row mt-3">
-            <div className="col-12 col-md-6 mt-2">
+        <div className="containerv overflow-auto">
+          <h2 className="mt-2">
+            {" "}
+            {data ? "Actualizar" : "Registrar"} empleado
+          </h2>
+          <form onSubmit={handleSubmit(handleCreate)}>
+            <div className="row mt-3">
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="names">Nombres</label>
+                  <input
+                    {...register("names", { required: true })}
+                    aria-invalid={errors.names ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="names"
+                    placeholder="Nombres"
+                    value={names}
+                    onChange={(e) => setNames(e.target.value)}
+                  />
+                  {errors.names && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="lastNames">Apellidos</label>
+                  <input
+                    {...register("lastNames", { required: true })}
+                    aria-invalid={errors.lastNames ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="lastNames"
+                    placeholder="Apellidos"
+                    value={lastNames}
+                    onChange={(e) => setLastNames(e.target.value)}
+                  />
+                  {errors.lastNames && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="area">Área</label>
+                  <select
+                    {...register("area", { required: true })}
+                    aria-invalid={errors.area ? "true" : "false"}
+                    className="form-control bg-black text-white"
+                    id="area"
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                  >
+                    <option value="">Seleccionar área</option>
+                    {areas.map((area) => (
+                      <option key={area.id} value={area.name}>
+                        {area.name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.area && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="position">Cargo</label>
+                  <input
+                    {...register("position", { required: true })}
+                    aria-invalid={errors.position ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="position"
+                    placeholder="Cargo"
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                  />
+                  {errors.position && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="salary">Salario</label>
+                  <input
+                    {...register("salary", { required: true })}
+                    aria-invalid={errors.salary ? "true" : "false"}
+                    type="number"
+                    className="form-control bg-black text-white"
+                    id="salary"
+                    placeholder="Salario"
+                    value={salary}
+                    onChange={(e) => setSalary(e.target.value)}
+                  />
+                  {errors.salary && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="entryDate">Fecha de ingreso</label>
+                  <input
+                    {...register("entryDate", { required: true })}
+                    aria-invalid={errors.entryDate ? "true" : "false"}
+                    type="date"
+                    className="custom-date-input"
+                    id="entryDate"
+                    placeholder="Fecha de ingreso"
+                    value={entryDate}
+                    onChange={(e) => setEntryDate(e.target.value)}
+                  />
+                  {errors.entryDate && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="birthDate">Fecha de nacimiento</label>
+                  <input
+                    {...register("birthDate", { required: true })}
+                    aria-invalid={errors.birthDate ? "true" : "false"}
+                    type="date"
+                    className="custom-date-input"
+                    id="birthDate"
+                    placeholder="Fecha de nacimiento"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                  />
+                  {errors.birthDate && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="phone">Teléfono</label>
+                  <input
+                    {...register("phone", {
+                      required: true,
+                      minLength: 8,
+                      maxLength: 8,
+                      pattern: /^[0-9]*$/i,
+                    })}
+                    aria-invalid={errors.phone ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="phone"
+                    placeholder="Teléfono"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                  {errors.phone && phonePatternSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="email">Correo electrónico</label>
+                  <input
+                    {...register("email", {
+                      required: true,
+                      pattern: /^\S+@\S+$/i,
+                    })}
+                    aria-invalid={errors.email ? "true" : "false"}
+                    type="email"
+                    className="form-control bg-black text-white"
+                    id="email"
+                    placeholder="Correo electrónico"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  {errors.email && emailPatternSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="dui">DUI</label>
+                  <input
+                    {...register("dui", {
+                      required: true,
+                      minLength: 10,
+                      maxLength: 10,
+                    })}
+                    aria-invalid={errors.dui ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="dui"
+                    placeholder="DUI"
+                    value={dui}
+                    onChange={(e) => setDui(e.target.value)}
+                  />
+                  {errors.dui && duiPatternSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="bank">Banco</label>
+                  <select
+                    {...register("bank", { required: true })}
+                    aria-invalid={errors.bank ? "true" : "false"}
+                    className="form-control bg-black text-white"
+                    id="bank"
+                    value={bank}
+                    onChange={(e) => setBank(e.target.value)}
+                  >
+                    <option value="">Seleccionar banco</option>
+                    {banks.Banks.map((bank) => (
+                      <option key={bank} value={bank}>
+                        {bank}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.bank && requiredSpan}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6 mt-2">
+                <div className="form-group">
+                  <label htmlFor="bankAccount">Cuenta bancaria</label>
+                  <input
+                    {...register("bankAccount", { required: true })}
+                    aria-invalid={errors.bankAccount ? "true" : "false"}
+                    type="text"
+                    className="form-control bg-black text-white"
+                    id="bankAccount"
+                    placeholder="Cuenta bancaria"
+                    value={bankAccount}
+                    onChange={(e) => setBankAccount(e.target.value)}
+                  />
+                  {errors.bankAccount && requiredSpan}
+                </div>
+              </div>
+            </div>
+            <div className="row mt-2">
               <div className="form-group">
-                <label htmlFor="names">Nombres</label>
+                <label htmlFor="bankAccount">Dirección</label>
                 <input
-                  {...register("names", { required: true })}
-                  aria-invalid={errors.names ? "true" : "false"}
-                  type="text"
-                  className="form-control bg-black text-white"
-                  id="names"
-                  placeholder="Nombres"
-                  value={names}
-                  onChange={(e) => setNames(e.target.value)}
-                />
-                {errors.names && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="lastNames">Apellidos</label>
-                <input
-                  {...register("lastNames", { required: true })}
-                  aria-invalid={errors.lastNames ? "true" : "false"}
-                  type="text"
-                  className="form-control bg-black text-white"
-                  id="lastNames"
-                  placeholder="Apellidos"
-                  value={lastNames}
-                  onChange={(e) => setLastNames(e.target.value)}
-                />
-                {errors.lastNames && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="area">Área</label>
-                <select
-                  {...register("area", { required: true })}
-                  aria-invalid={errors.area ? "true" : "false"}
-                  className="form-control bg-black text-white"
-                  id="area"
-                  value={area}
-                  onChange={(e) => setArea(e.target.value)}
-                >
-                  <option value="">Seleccionar área</option>
-                  {areas.map((area) => (
-                    <option key={area.id} value={area.name}>
-                      {area.name}
-                    </option>
-                  ))}
-                </select>
-                {errors.area && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="position">Cargo</label>
-                <input
-                  {...register("position", { required: true })}
-                  aria-invalid={errors.position ? "true" : "false"}
-                  type="text"
-                  className="form-control bg-black text-white"
-                  id="position"
-                  placeholder="Cargo"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                />
-                {errors.position && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="salary">Salario</label>
-                <input
-                  {...register("salary", { required: true })}
-                  aria-invalid={errors.salary ? "true" : "false"}
-                  type="number"
-                  className="form-control bg-black text-white"
-                  id="salary"
-                  placeholder="Salario"
-                  value={salary}
-                  onChange={(e) => setSalary(e.target.value)}
-                />
-                {errors.salary && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="entryDate">Fecha de ingreso</label>
-                <input
-                  {...register("entryDate", { required: true })}
-                  aria-invalid={errors.entryDate ? "true" : "false"}
-                  type="date"
-                  className="custom-date-input"
-                  id="entryDate"
-                  placeholder="Fecha de ingreso"
-                  value={entryDate}
-                  onChange={(e) => setEntryDate(e.target.value)}
-                />
-                {errors.entryDate && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="birthDate">Fecha de nacimiento</label>
-                <input
-                  {...register("birthDate", { required: true })}
-                  aria-invalid={errors.birthDate ? "true" : "false"}
-                  type="date"
-                  className="custom-date-input"
-                  id="birthDate"
-                  placeholder="Fecha de nacimiento"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                />
-                {errors.birthDate && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="phone">Teléfono</label>
-                <input
-                  {...register("phone", {
-                    required: true,
-                    minLength: 8,
-                    maxLength: 8,
-                    pattern: /^[0-9]*$/i,
-                  })}
-                  aria-invalid={errors.phone ? "true" : "false"}
-                  type="text"
-                  className="form-control bg-black text-white"
-                  id="phone"
-                  placeholder="Teléfono"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                {errors.phone && phonePatternSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="email">Correo electrónico</label>
-                <input
-                  {...register("email", {
-                    required: true,
-                    pattern: /^\S+@\S+$/i,
-                  })}
-                  aria-invalid={errors.email ? "true" : "false"}
-                  type="email"
-                  className="form-control bg-black text-white"
-                  id="email"
-                  placeholder="Correo electrónico"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && emailPatternSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="dui">DUI</label>
-                <input
-                  {...register("dui", {
-                    required: true,
-                    minLength: 10,
-                    maxLength: 10,
-                  })}
-                  aria-invalid={errors.dui ? "true" : "false"}
-                  type="text"
-                  className="form-control bg-black text-white"
-                  id="dui"
-                  placeholder="DUI"
-                  value={dui}
-                  onChange={(e) => setDui(e.target.value)}
-                />
-                {errors.dui && duiPatternSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="bank">Banco</label>
-                <select
-                  {...register("bank", { required: true })}
-                  aria-invalid={errors.bank ? "true" : "false"}
-                  className="form-control bg-black text-white"
-                  id="bank"
-                  value={bank}
-                  onChange={(e) => setBank(e.target.value)}
-                >
-                  <option value="">Seleccionar banco</option>
-                  {banks.Banks.map((bank) => (
-                    <option key={bank} value={bank}>
-                      {bank}
-                    </option>
-                  ))}
-                </select>
-                {errors.bank && requiredSpan}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 mt-2">
-              <div className="form-group">
-                <label htmlFor="bankAccount">Cuenta bancaria</label>
-                <input
-                  {...register("bankAccount", { required: true })}
-                  aria-invalid={errors.bankAccount ? "true" : "false"}
+                  {...register("address", { required: true })}
+                  aria-invalid={errors.address ? "true" : "false"}
                   type="text"
                   className="form-control bg-black text-white"
                   id="bankAccount"
-                  placeholder="Cuenta bancaria"
-                  value={bankAccount}
-                  onChange={(e) => setBankAccount(e.target.value)}
+                  placeholder="Dirección"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                 />
-                {errors.bankAccount && requiredSpan}
+                {errors.address && requiredSpan}
               </div>
             </div>
-          </div>
-          <div className="row mt-2">
-            <div className="form-group">
-              <label htmlFor="bankAccount">Dirección</label>
-              <input
-                {...register("address", { required: true })}
-                aria-invalid={errors.address ? "true" : "false"}
-                type="text"
-                className="form-control bg-black text-white"
-                id="bankAccount"
-                placeholder="Dirección"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              {errors.address && requiredSpan}
+            <div className="row mt-4 p-2 mb-2">
+              <div className="col-12 col-md-6">
+                <button
+                  type="submit"
+                  className="btn btn-outline-light m-1 w-100"
+                >
+                  {edit ? "Editar" : "Agregar"}
+                </button>
+              </div>
+              <div className="col-12 col-md-6">
+                <button
+                  type="button"
+                  className="btn btn-outline-light m-1 w-100"
+                  onClick={() => {
+                    setIsOpen(false);
+                    setEdit(false);
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="row mt-4 p-2 mb-2">
-            <div className="col-12 col-md-6">
-              <button type="submit" className="btn btn-outline-light m-1 w-100">
-                {edit ? "Editar" : "Agregar"}
-              </button>
-            </div>
-            <div className="col-12 col-md-6">
-              <button
-                type="button"
-                className="btn btn-outline-light m-1 w-100"
-                onClick={() => {
-                  setIsOpen(false);
-                  setEdit(false);
-                }}
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </Modal>
     </div>
   );

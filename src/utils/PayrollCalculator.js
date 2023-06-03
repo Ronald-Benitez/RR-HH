@@ -21,12 +21,17 @@ const CalculatePayroll = (data, date) => {
   let renta = 0;
 
   let extras = {
-    overtime: 0,
-    bonuses: 0,
-    vacation: 0,
+    overtime: data?.overtime ? data.overtime.toFixed(2) : 0,
+    bonuses: data?.bonuses ? data.bonuses.toFixed(2) : 0,
+    vacation: data?.vacation ? data.vacation.toFixed(2) : 0,
   };
 
-  let salary = data.salary;
+  let salary =
+    parseFloat(data.salary) +
+    parseFloat(extras.overtime) +
+    parseFloat(extras.bonuses) +
+    parseFloat(extras.vacation);
+  salary = parseFloat(salary.toFixed(2));
 
   let insaforp = 0;
 
@@ -51,7 +56,20 @@ const CalculatePayroll = (data, date) => {
 
   let aguinaldo = 0;
 
+  if (moment(date).format("M") === "12") {
+    const ranges = Object.values(deductions.aguinaldo);
+    const timeLabored = moment(date).diff(moment(data.fechaIngreso), "years");
+    const dailySalary = data.salary / 30;
+
+    ranges.forEach((range) => {
+      if (timeLabored >= range.min && timeLabored < range.max) {
+        aguinaldo = FixedMultiplier(dailySalary, range.dias);
+      }
+    });
+  }
+
   salary += aguinaldo;
+  salary = salary.toFixed(2);
 
   const totalPatronal =
     (parseFloat(data.salary) || 0) +
@@ -82,15 +100,19 @@ const CalculatePayroll = (data, date) => {
   const result = {
     isss,
     afp,
-    renta,
-    extras,
+    renta: parseFloat(renta) || 0,
+    extras: {
+      overtime: parseFloat(extras.overtime) || 0,
+      bonuses: parseFloat(extras.bonuses) || 0,
+      vacation: parseFloat(extras.vacation) || 0,
+    },
     base: parseFloat(data.salary) || 0,
-    neto: salary,
+    neto: parseFloat(salary) || 0,
     name: data.name,
     id: data.id,
     cargo: data.cargo,
     insaforp,
-    aguinaldo,
+    aguinaldo: parseFloat(aguinaldo) || 0,
     totalPatronal,
     bruteSalary,
     totalDeductionsEmployee,

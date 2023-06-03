@@ -42,6 +42,7 @@ export default function Navbar() {
                   links={[
                     { label: "Empleados", url: "/employees" },
                     { label: "Planilla", url: "/payroll" },
+                    { label: "Horas extra", url: "/overtime" },
                   ]}
                 />
               </li>

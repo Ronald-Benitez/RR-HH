@@ -1,6 +1,8 @@
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
+    zIndex: 1000,
+    
   },
   content: {
     backgroundColor: "#18191A",
@@ -13,6 +15,7 @@ const ModalStyle = {
     maxHeight: "80vh",
     maxWidth: "60vw",
     marginTop: "50px",
+    overflow: "auto",
   },
 };
 

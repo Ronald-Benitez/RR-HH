@@ -4,10 +4,14 @@ import moment from "moment/moment";
 
 import Navbar from "../components/navbar/Navbar";
 import { getEmployees } from "../firebase/employees";
+import { getOvertimes } from "../firebase/overtime";
 import CalculatePayroll from "../utils/PayrollCalculator";
+import { calculateOvertime } from "../utils/ExtrasCalculator";
+
 import TableEmployee from "../components/payroll/TableEmployee";
 import TableEmployer from "../components/payroll/TableEmployer";
 import Totals from "../components/payroll/Totals";
+import { set } from "react-hook-form";
 
 export default function PayRoll() {
   const [employees, setEmployees] = useState([]);
@@ -16,6 +20,7 @@ export default function PayRoll() {
   const [date, setDate] = useState(moment());
   const [seeTotals, setSeeTotals] = useState(false);
   const [totals, setTotals] = useState({});
+  const [overtime, setOvertime] = useState([]);
 
   const sumTotals = () => {
     const totals = {
@@ -56,19 +61,35 @@ export default function PayRoll() {
           name: employee.data().names + " " + employee.data().lastNames,
           cargo: employee.data().position,
           fechaIngreso: employee.data().entryDate,
+          overtime: 0,
+          vacations: 0,
+          bonuses: 0,
         }));
         setEmployees(data);
       })
       .catch((error) => {
         toast.error(error.message);
       });
+
+    getOvertimes(moment(date).format("MMMM-YYYY")).then((overtime) => {
+      const data = overtime.docs.map((overtime) => ({
+        id: overtime.id,
+        ...overtime.data(),
+      }));
+      setOvertime(data || []);
+    });
   }, [date]);
 
   useEffect(() => {
+    setExtras();
     const data = employees.map((employee) => CalculatePayroll(employee, date));
     setPayroll(data);
     sumTotals();
-  }, [employees, date]);
+  }, [employees, date, overtime]);
+
+  const setExtras = () => {
+    const data = calculateOvertime(employees, overtime);
+  };
 
   return (
     <div>

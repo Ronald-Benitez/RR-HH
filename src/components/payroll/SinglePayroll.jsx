@@ -6,7 +6,7 @@ export default function SinglePayroll({ see, setSee, data }) {
   Modal.setAppElement("#root");
   return (
     <Modal isOpen={see} onRequestClose={() => setSee(false)} style={ModalStyle}>
-      <div className="container">
+      <div className="container overflow-auto">
         <h2>Información del empleado </h2>
         <p>
           {data.name} {"("}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 const DropdownLinker = ({ links, placeholder }) => {
@@ -24,9 +24,8 @@ const DropdownLinker = ({ links, placeholder }) => {
       {isOpen && (
         <div className="dropdown-menu show">
           {links.map((link, index) => (
-            <>
+            <Fragment key={index}>
               <Link
-                key={index}
                 className="dropdown-item"
                 to={link.url}
                 onClick={handleLinkClick}
@@ -36,7 +35,7 @@ const DropdownLinker = ({ links, placeholder }) => {
               {index < links.length - 1 && (
                 <div className="dropdown-divider"></div>
               )}
-            </>
+            </Fragment>
           ))}
         </div>
       )}

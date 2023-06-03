@@ -29,7 +29,7 @@ export default function Totals({ see, setSee, data }) {
       style={ModalStyle}
       contentLabel="Totales"
     >
-      <div className="container">
+      <div className="container overflow-auto">
         <div className="text-center">
           <h2>Totales</h2>
         </div>
