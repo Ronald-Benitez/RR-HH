@@ -6,8 +6,9 @@ import Navbar from "../components/navbar/Navbar";
 import { getEmployees } from "../firebase/employees";
 import { getOvertimes } from "../firebase/overtime";
 import { getBonuses } from "../firebase/bonuses";
+import { getVacations } from "../firebase/vacations";
 import CalculatePayroll from "../utils/PayrollCalculator";
-import { calculateOvertime, calculateBonuses } from "../utils/ExtrasCalculator";
+import { calculateOvertime, calculateBonuses, calculateVacations } from "../utils/ExtrasCalculator";
 
 import TableEmployee from "../components/payroll/TableEmployee";
 import TableEmployer from "../components/payroll/TableEmployer";
@@ -22,6 +23,7 @@ export default function PayRoll() {
   const [totals, setTotals] = useState({});
   const [overtime, setOvertime] = useState([]);
   const [bonuses, setBonuses] = useState([]);
+  const [vacations, setVacations] = useState([]);
 
   const sumTotals = () => {
     const totals = {
@@ -93,6 +95,14 @@ export default function PayRoll() {
       }));
       setBonuses(data || []);
     });
+
+    getVacations(moment(date).format("YYYY")).then((vacations) => {
+      const data = vacations.docs.map((vacation) => ({
+        id: vacation.id,
+        ...vacation.data(),
+      }));
+      setVacations(data || []);
+    });
   }, [date]);
 
   useEffect(() => {
@@ -105,6 +115,8 @@ export default function PayRoll() {
   const setExtras = () => {
     calculateOvertime(employees, overtime);
     calculateBonuses(employees, bonuses);
+    calculateVacations(employees, vacations, date);
+
   };
 
   return (

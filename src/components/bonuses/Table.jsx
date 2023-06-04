@@ -155,15 +155,17 @@ export default function Table({ bonuses, toaster, reload, setReload, date }) {
         }}
         onCancel={() => setIsOpen(false)}
       />
-      <AddBonusesModal
-        setReload={setReload.bind(this)}
-        reload={reload}
-        edit={edit}
-        setEdit={setEdit.bind(this)}
-        data={selectedBonus}
-        toaster={toaster}
-        dateSelected={moment(date).format("YYYY-MM-DD")}
-      />
+      {edit && (
+        <AddBonusesModal
+          setReload={setReload.bind(this)}
+          reload={reload}
+          edit={edit}
+          setEdit={setEdit.bind(this)}
+          data={selectedBonus}
+          toaster={toaster}
+          dateSelected={moment(date).format("YYYY-MM-DD")}
+        />
+      )}
     </>
   );
 }

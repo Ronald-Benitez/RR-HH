@@ -3,10 +3,13 @@ import Modal from "react-modal";
 import moment from "moment/moment";
 
 import ModalStyle from "../../utils/ModalStyle";
-import { createBonus, updateBonus } from "../../firebase/bonuses";
+import { createVacation, updateVacation } from "../../firebase/vacations";
 import { getEmployees } from "../../firebase/employees";
+import deductions from "../../config/deductions";
+import { FixedMultiplier } from "../../utils/DataConversion";
+import { set } from "react-hook-form";
 
-export default function AddBonusesModal({
+export default function AddVacationModal({
   toaster,
   reload,
   setReload,
@@ -21,8 +24,9 @@ export default function AddBonusesModal({
 
   const [employee, setEmployee] = useState("");
   const [date, setDate] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState({});
   const [id, setId] = useState("");
 
@@ -31,32 +35,35 @@ export default function AddBonusesModal({
     const sendData = {
       employee,
       date,
-      value,
-      description,
-      month: moment(date).format("MMMM-YYYY"),
+      start,
+      end,
+      value: value.toString(),
+      year: moment(date).format("YYYY"),
       name: selectedEmployee.name,
       cargo: selectedEmployee.cargo,
       id,
+      salary: selectedEmployee.salary,
     };
+
     if (edit) {
-      updateBonus(sendData)
+      updateVacation(sendData)
         .then(() => {
-          toaster.success("Bono actualizado exitosamente");
+          toaster.success("Vacación actualizada exitosamente");
           setReload(!reload);
           setEdit(false);
           setIsOpen(false);
-          clear();
+          clearForm();
         })
         .catch((error) => {
           toaster.error(error.message);
         });
     } else {
-      createBonus(sendData)
+      createVacation(sendData)
         .then(() => {
-          toaster.success("Bono creado exitosamente");
+          toaster.success("Vacación registrada exitosamente");
           setReload(!reload);
           setIsOpen(false);
-          clear();
+          clearForm();
         })
         .catch((error) => {
           toaster.error(error.message);
@@ -64,8 +71,22 @@ export default function AddBonusesModal({
     }
   };
 
+  const clearForm = () => {
+    setEmployee("");
+    setValue("");
+    setSelectedEmployee({});
+    setId("");
+  };
+
   useEffect(() => {
     setDate(dateSelected);
+    setStart(dateSelected);
+    setEnd(
+      moment(dateSelected)
+        .add(deductions.vacaciones.dias - 1, "days")
+        .format("YYYY-MM-DD")
+    );
+
     getEmployees()
       .then((employeeData) => {
         const employeeList = employeeData.docs.map((employee) => ({
@@ -79,25 +100,33 @@ export default function AddBonusesModal({
       .catch((error) => {
         toaster.error("Error al cargar los empleados");
       });
+  }, [dateSelected]);
 
+  useEffect(() => {
     if (data) {
       setEmployee(data.employee);
       setDate(data.date);
-      setValue(data.value);
-      setDescription(data.description);
-      setId(data.id);
+      setStart(data.start);
+      setEnd(data.end);
       setSelectedEmployee(data);
+      setId(data.id);
       setIsOpen(edit);
     }
-  }, [edit, id, dateSelected]);
+  }, [data, edit]);
 
-  const clear = () => {
-    setEmployee("");
-    setDate("");
-    setValue("");
-    setDescription("");
-    setSelectedEmployee({});
-    setId("");
+  useEffect(() => {
+    calculeValue();
+  }, [selectedEmployee]);
+
+  const calculeValue = () => {
+    if (selectedEmployee === undefined) {
+      setValue("Debe seleccionar un empleado");
+      return;
+    }
+    const salary = parseFloat(selectedEmployee.salary) / 30;
+    const days = FixedMultiplier(salary, deductions.vacaciones.dias);
+    const percent = FixedMultiplier(days, deductions.vacaciones.porcentaje);
+    setValue(percent);
   };
 
   return (
@@ -107,7 +136,7 @@ export default function AddBonusesModal({
           className="btn btn-outline-light"
           onClick={() => setIsOpen(true)}
         >
-          Agregar Bono
+          Registrar vacación
         </button>
       ) : null}
       <Modal
@@ -115,19 +144,19 @@ export default function AddBonusesModal({
         onRequestClose={() => {
           setIsOpen(false);
           setEdit && setEdit(false);
-          clear();
+          clearForm();
         }}
         style={ModalStyle}
         contentLabel="Example Modal"
       >
         <div className="container overflow-auto">
           <h3 className="text-center">
-            {edit ? "Editar Bono" : "Agregar Bono"}
+            {edit ? "Editar vacación" : "Registrar vacación"}
           </h3>
           <div className="modal-body mt-2">
             <form onSubmit={handleSubmit}>
-              <div className="row">
-                <div className="mb-3 col-12 col-md-6">
+              <div className="row justify-content-center align-items-center">
+                <div className="mb-3 col-12 col-md-5">
                   <label htmlFor="employee" className="form-label">
                     Empleado
                   </label>
@@ -153,45 +182,40 @@ export default function AddBonusesModal({
                     ))}
                   </select>
                 </div>
-                <div className="mb-3 col-12 col-md-6">
+                <div className="mb-3 col-12 col-md-5 mt-3">
                   <label htmlFor="date" className="form-label">
-                    Fecha
+                    Monto
+                  </label>
+                  <p className="form-control">{value}</p>
+                </div>
+                <div className="mb-3 col-12 col-md-5">
+                  <label htmlFor="date" className="form-label">
+                    Inicio
                   </label>
                   <input
                     type="date"
                     className="form-control"
                     id="date"
-                    value={date}
                     required
-                    onChange={(e) => setDate(e.target.value)}
+                    value={start}
+                    onChange={(e) => {
+                      setStart(e.target.value);
+                      setEnd(
+                        moment(e.target.value)
+                          .add(deductions.vacaciones.dias - 1, "days")
+                          .format("YYYY-MM-DD")
+                      );
+                    }}
                   />
                 </div>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="value" className="form-label">
-                  Valor
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="value"
-                  required
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="description" className="form-label">
-                  Descripción
-                </label>
-                <textarea
-                  className="form-control"
-                  id="description"
-                  rows="3"
-                  required
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
+                <div className="mb-3 col-12 col-md-5 mt-3">
+                  <label htmlFor="date" className="form-label">
+                    Fin
+                  </label>
+                  <p className="form-control">
+                    {moment(end).format("DD/MM/YYYY")}
+                  </p>
+                </div>
               </div>
               <div className="row px-5">
                 <button type="submit" className="btn btn-outline-light">
@@ -203,7 +227,7 @@ export default function AddBonusesModal({
                   onClick={() => {
                     setIsOpen(false);
                     setEdit && setEdit(false);
-                    clear();
+                    clearForm();
                   }}
                 >
                   Cancelar

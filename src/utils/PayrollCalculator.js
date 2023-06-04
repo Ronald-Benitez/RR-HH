@@ -23,7 +23,7 @@ const CalculatePayroll = (data, date) => {
   let extras = {
     overtime: data?.overtime ? data.overtime.toFixed(2) : 0,
     bonuses: data?.bonuses ? data.bonuses.toFixed(2) : 0,
-    vacation: data?.vacation ? data.vacation.toFixed(2) : 0,
+    vacation: data?.vacations ? data.vacations : 0,
   };
 
   let salary =
@@ -53,6 +53,7 @@ const CalculatePayroll = (data, date) => {
   });
   salary -= renta;
   insaforp = FixedMultiplier(isss.employer, deductions.insaforp);
+  renta = renta.toFixed(2);
 
   let aguinaldo = 0;
 

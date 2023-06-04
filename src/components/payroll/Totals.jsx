@@ -35,53 +35,69 @@ export default function Totals({ see, setSee, data }) {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Salarios</h3>
-              <p className="mb-0">Total: ${totals.totalSalaries}</p>
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Salarios</h3>
+              <p className="mb-1 text-right">Total: ${totals.totalSalaries}</p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Descuentos</h3>
-              <p className="mb-0">AFP: ${totals.totalAfpEmployee}</p>
-              <p className="mb-0">ISSS: ${totals.totalIsssEmployee}</p>
-              <p className="mb-0">Renta: ${totals.totalRenta}</p>
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Descuentos</h3>
+              <p className="mb-1 text-right">AFP: ${totals.totalAfpEmployee}</p>
+              <p className="mb-1 text-right">
+                ISSS: ${totals.totalIsssEmployee}
+              </p>
+              <p className="mb-1 text-right">Renta: ${totals.totalRenta}</p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Patronales</h3>
-              <p className="mb-0">AFP: ${totals.totalAfpEmployer}</p>
-              <p className="mb-0">ISSS: ${totals.totalIsssEmployer}</p>
-              <p className="mb-0">Insaforp: ${totals.totalInsaforp}</p>
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Patronales</h3>
+              <p className="mb-1 text-right">AFP: ${totals.totalAfpEmployer}</p>
+              <p className="mb-1 text-right">
+                ISSS: ${totals.totalIsssEmployer}
+              </p>
+              <p className="mb-1 text-right">
+                Insaforp: ${totals.totalInsaforp}
+              </p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Extras</h3>
-              <p className="mb-0">
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Extras</h3>
+              <p className="mb-1 text-right">
                 Horas extras: ${totals.totalExtraHours}
               </p>
-              <p className="mb-0">
-                Bonos: ${totals.totalBonuses}
-              </p>
-              <p className="mb-0">
+              <p className="mb-1 text-right">Bonos: ${totals.totalBonuses}</p>
+              <p className="mb-1 text-right">
                 Vacaciones: ${totals.totalVacations}
               </p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Aguinaldo</h3>
-              <p className="mb-0">Aguinaldo: ${totals.totalAguinaldo}</p>
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Aguinaldo</h3>
+              <p className="mb-1 text-right">
+                Aguinaldo: ${totals.totalAguinaldo}
+              </p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
-            <div className="text-center p-3">
-              <h3 className="h5 font-weight-bold">Total planilla</h3>
-              <p className="mb-0">Total: ${totalPayroll}</p>
+            <div className="text-right p-3">
+              <h3 className="h5 font-weight-bold text-right">Total planilla</h3>
+              <p className="mb-1 text-right">
+                Total: ${totalPayroll.toFixed(2)}
+              </p>
             </div>
           </div>
+        </div>
+        <div className="row justify-content-center">
+          <button
+            className="col-12 col-md-5 btn btn-outline-light"
+            onClick={() => setSee(false)}
+          >
+            Cerrar
+          </button>
         </div>
       </div>
     </Modal>

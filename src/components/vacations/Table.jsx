@@ -5,36 +5,36 @@ import moment from "moment/moment";
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
-import { deleteOvertime } from "../../firebase/overtime";
-import AddOvertimeModal from "./AddOvertimeModal";
+import { deleteVacation } from "../../firebase/vacations";
+import AddVacationModal from "./AddVacationModal";
 
-export default function Table({ overtimes, toaster, reload, setReload, date }) {
+export default function Table({ vacations, toaster, reload, setReload, date }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [selectedOvertime, setSelectedOvertime] = useState({});
+  const [selectedVacation, setSelectedVacation] = useState({});
   const [filteredData, setFilteredData] = useState([]);
 
   const handleFinder = (e) => {
     const value = e.target.value.toLowerCase();
-    const results = overtimes.filter((overtime) => {
-      return overtime.name.toLowerCase().includes(value);
+    const results = vacations.filter((vacation) => {
+      return vacation.name.toLowerCase().includes(value);
     });
     setFilteredData(results);
   };
 
   useEffect(() => {
-    setData(filteredData.length > 0 ? filteredData : overtimes);
-  }, [overtimes, filteredData]);
+    setData(filteredData.length > 0 ? filteredData : vacations);
+  }, [vacations, filteredData]);
 
   useEffect(() => {
     setFilteredData([]);
   }, [date]);
 
   const handleDelete = () => {
-    deleteOvertime(selectedOvertime)
+    deleteVacation(selectedVacation)
       .then(() => {
-        toaster.success("Horas extraordinarias eliminadas exitosamente");
+        toaster.success("Vacación eliminada exitosamente");
         setReload(!reload);
       })
       .catch((error) => {
@@ -44,23 +44,23 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
 
   const columns = [
     {
-      name: "Fecha",
-      selector: (row) => moment(row.date).format("LL"),
-      sortable: true,
-    },
-    {
       name: "Empleado",
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Horas",
-      selector: (row) => row.hours,
+      name: "Cargo",
+      selector: (row) => row.cargo,
       sortable: true,
     },
     {
-      name: "Tipo",
-      selector: (row) => row.type,
+      name: "Fecha de inicio",
+      selector: (row) => moment(row.start).format("LL"),
+      sortable: true,
+    },
+    {
+      name: "Fecha de fin",
+      selector: (row) => moment(row.end).format("LL"),
       sortable: true,
     },
     {
@@ -75,7 +75,7 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           <button
             className="btn btn-outline-warning btn-sm mx-1"
             onClick={() => {
-              setSelectedOvertime(row);
+              setSelectedVacation(row);
               setEdit(true);
             }}
           >
@@ -93,7 +93,7 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           <button
             className="btn btn-outline-danger btn-sm mx-1"
             onClick={() => {
-              setSelectedOvertime(row);
+              setSelectedVacation(row);
               setIsOpen(true);
             }}
           >
@@ -129,9 +129,8 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
           </div>
         </div>
       </div>
-
       <DataTable
-        title="Horas extraordinarias"
+        title="Vacaciones"
         columns={columns}
         data={filteredData.length > 0 ? filteredData : data}
         pagination
@@ -153,8 +152,8 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
       <ModalConfirm
         show={modalIsOpen}
         setShow={setIsOpen}
-        title="Eliminar horas extraordinarias"
-        message="¿Está seguro que desea eliminar estas horas extraordinarias?"
+        title="Eliminar vacación"
+        message="¿Está seguro que desea eliminar esta vacación?"
         onConfirm={() => {
           handleDelete();
           setIsOpen(false);
@@ -162,13 +161,14 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
         onCancel={() => setIsOpen(false)}
       />
       {edit && (
-        <AddOvertimeModal
+        <AddVacationModal
           setReload={setReload.bind(this)}
           reload={reload}
           edit={edit}
           setEdit={setEdit.bind(this)}
-          data={selectedOvertime}
+          data={selectedVacation}
           toaster={toaster}
+          dateSelected={moment(date).format("YYYY-MM-DD")}
         />
       )}
     </>

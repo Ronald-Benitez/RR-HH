@@ -44,6 +44,7 @@ export default function Navbar() {
                     { label: "Planilla", url: "/payroll" },
                     { label: "Horas extra", url: "/overtime" },
                     { label: "Bonos", url: "/bonuses" },
+                    { label: "Vacaciones", url: "/vacations" },
                   ]}
                 />
               </li>

@@ -8,6 +8,7 @@ import Employees from "./pages/Employees";
 import PayRoll from "./pages/PayRoll";
 import Overtime from "./pages/Overtime";
 import Bonuses from "./pages/Bonuses";
+import Vacations from "./pages/Vacations";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/payroll" component={authMiddleware(PayRoll)} />
         <Route exact path="/overtime" component={authMiddleware(Overtime)} />
         <Route exact path="/bonuses" component={authMiddleware(Bonuses)} />
+        <Route exact path="/vacations" component={authMiddleware(Vacations)} />
       </Switch>
     </Router>
   );
