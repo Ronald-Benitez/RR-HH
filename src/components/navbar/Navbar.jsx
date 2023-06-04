@@ -32,11 +32,6 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav d-flex justify-content-center">
               <li className="nav-item">
-                <Link className="navbar-brand" to="/areas">
-                  <small>Areas</small>
-                </Link>
-              </li>
-              <li className="nav-item">
                 <DropdownLinker
                   placeholder={"Empleados"}
                   links={[
@@ -45,6 +40,15 @@ export default function Navbar() {
                     { label: "Horas extra", url: "/overtime" },
                     { label: "Bonos", url: "/bonuses" },
                     { label: "Vacaciones", url: "/vacations" },
+                  ]}
+                />
+              </li>
+              <li className="nav-item">
+                <DropdownLinker
+                  placeholder={"Reclutamiento"}
+                  links={[
+                    { label: "Areas", url: "/areas" },
+                    { label: "Puestos", url: "/positions" },
                   ]}
                 />
               </li>

@@ -164,7 +164,7 @@ export default function CreateModal({
         }}
         style={ModalStyle}
       >
-        <div className="containerv overflow-auto">
+        <div className="container overflow-auto">
           <h2 className="mt-2">
             {" "}
             {data ? "Actualizar" : "Registrar"} empleado
