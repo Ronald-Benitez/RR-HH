@@ -25,7 +25,7 @@ export default function Bonuses() {
   return (
     <div>
       <Navbar />
-      <div className="">
+      <div>
         <p className="mt-5 text-center fs-2">
           Bonos{" "}
           <small className="fs-5">{moment(date).format("MMMM YYYY")}</small>

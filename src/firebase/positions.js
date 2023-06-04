@@ -6,6 +6,7 @@ import {
   doc,
   setDoc,
   deleteDoc,
+  getDoc,
 } from "firebase/firestore";
 
 const db = getFirestore(app);
@@ -26,4 +27,8 @@ export const updatePosition = (data) => {
 
 export const deletePosition = (id) => {
   return deleteDoc(doc(db, "positions", id));
+};
+
+export const getPosition = (id) => {
+  return getDoc(doc(db, "positions", id));
 };

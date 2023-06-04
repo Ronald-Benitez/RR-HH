@@ -10,6 +10,7 @@ import Overtime from "./pages/Overtime";
 import Bonuses from "./pages/Bonuses";
 import Vacations from "./pages/Vacations";
 import Positions from "./pages/Positions";
+import Candidates from "./pages/Candidates";
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
         <Route exact path="/bonuses" component={authMiddleware(Bonuses)} />
         <Route exact path="/vacations" component={authMiddleware(Vacations)} />
         <Route exact path="/positions" component={authMiddleware(Positions)} />
+        <Route
+          exact
+          path="/candidates"
+          component={authMiddleware(Candidates)}
+        />
       </Switch>
     </Router>
   );

@@ -4,6 +4,7 @@ import moment from "moment/moment";
 import "moment/locale/es";
 
 import ModalStyle from "../../utils/ModalStyle";
+import Icon from "../utils/Icon";
 
 export default function SeeModal({ see, setSee, data }) {
   moment.locale("es");
@@ -76,6 +77,23 @@ export default function SeeModal({ see, setSee, data }) {
                 <p>
                   <strong>Dirección:</strong>{" "}
                   <span id="address">{data.address}</span>
+                </p>
+                <p>
+                  <strong>Curriculum:</strong>{" "}
+                  <span id="curriculum">
+                    {data.pdfUrl ? (
+                      <a
+                        className="text-light"
+                        href={data.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        ver currículum
+                      </a>
+                    ) : (
+                      <span className="text-muted">No adjuntado</span>
+                    )}
+                  </span>
                 </p>
               </div>
             </div>

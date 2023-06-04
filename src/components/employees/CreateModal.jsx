@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 
 import { createEmployee, updateEmployee } from "../../firebase/employees";
 import { getAreas } from "../../firebase/areas";
+import { getPosition } from "../../firebase/positions";
+import { updateCandidate } from "../../firebase/candidates";
 import banks from "../../config/banks";
 import ModalStyle from "../../utils/ModalStyle";
 
@@ -14,10 +17,14 @@ export default function CreateModal({
   data,
   edit,
   setEdit,
+  candidate,
+  setAddEmployee,
+  addEmployee,
 }) {
   Modal.setAppElement("#root");
 
   const [areas, setAreas] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -70,6 +77,32 @@ export default function CreateModal({
       });
   }, [edit]);
 
+  useEffect(() => {
+    if (candidate) {
+      if (candidate.position) {
+        try {
+          getPosition(candidate.position).then((res) => {
+            if (res.exists()) {
+              const data = res.data();
+              setPosition(data.name);
+              setArea(data.area);
+              setSalary(data.salary);
+            }
+          });
+        } catch (error) {}
+      }
+      setNames(candidate.names);
+      setLastNames(candidate.lastNames);
+      setEntryDate(candidate.date);
+      setBirthDate(candidate.birthDate);
+      setPhone(candidate.phone);
+      setEmail(candidate.email);
+      setDui(candidate.dui);
+      setAddress(candidate.address);
+      setIsOpen(addEmployee);
+    }
+  }, [candidate, addEmployee]);
+
   const handleCreate = () => {
     const NewData = {
       names,
@@ -85,6 +118,8 @@ export default function CreateModal({
       bankAccount,
       address,
       bank,
+      pdfUrl: candidate ? candidate.pdfUrl : "",
+      pdfId: candidate ? candidate.pdfId : "",
     };
     if (data) {
       NewData.id = data.id;
@@ -106,6 +141,15 @@ export default function CreateModal({
           toaster.success("Empleado creado exitosamente");
           setIsOpen(false);
           clear();
+          if (addEmployee) {
+            setAddEmployee(false);
+            updateCandidate({
+              ...candidate,
+              saved: true,
+            }).then(() => {
+              toaster.success("Candidato actualizado exitosamente");
+            });
+          }
         })
         .catch((error) => {
           toaster.error("Error al crear el empleado");
@@ -142,12 +186,12 @@ export default function CreateModal({
   );
 
   const duiPatternSpan = (
-    <span className="text-warning">El DUI es inválido</span>
+    <span className="text-warning">Inválido (formato: 12345678-9)</span>
   );
 
   return (
     <div>
-      {data ? null : (
+      {data || candidate ? null : (
         <button
           className="btn btn-outline-light"
           onClick={() => setIsOpen(true)}
@@ -159,7 +203,8 @@ export default function CreateModal({
         isOpen={modalIsOpen}
         onRequestClose={() => {
           setIsOpen(false);
-          setEdit(false);
+          setEdit && setEdit(false);
+          setAddEmployee && setAddEmployee(false);
           clear();
         }}
         style={ModalStyle}
@@ -301,9 +346,7 @@ export default function CreateModal({
                   <input
                     {...register("phone", {
                       required: true,
-                      minLength: 8,
-                      maxLength: 8,
-                      pattern: /^[0-9]*$/i,
+                      pattern: /^[0-9]{8}$/,
                     })}
                     aria-invalid={errors.phone ? "true" : "false"}
                     type="text"
@@ -311,6 +354,7 @@ export default function CreateModal({
                     id="phone"
                     placeholder="Teléfono"
                     value={phone}
+                    maxLength={8}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                   {errors.phone && phonePatternSpan}
@@ -343,8 +387,7 @@ export default function CreateModal({
                   <input
                     {...register("dui", {
                       required: true,
-                      minLength: 10,
-                      maxLength: 10,
+                      pattern: /^[0-9]{8}-[0-9]{1}$/,
                     })}
                     aria-invalid={errors.dui ? "true" : "false"}
                     type="text"
@@ -428,7 +471,8 @@ export default function CreateModal({
                   className="btn btn-outline-light m-1 w-100"
                   onClick={() => {
                     setIsOpen(false);
-                    setEdit(false);
+                    setEdit && setEdit(false);
+                    setAddEmployee && setAddEmployee(false);
                   }}
                 >
                   Cancelar

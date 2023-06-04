@@ -7,6 +7,7 @@ import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
 import SeeModal from "./SeeModal";
 import CreateModal from "./CreateModal";
+import UpdateCurriculum from "./UpdateCurriculum";
 import Icon from "../utils/Icon";
 
 export default function Table({ toaster, reload, setReload }) {
@@ -99,6 +100,12 @@ export default function Table({ toaster, reload, setReload }) {
           >
             <Icon icon="trash" />
           </button>
+          <UpdateCurriculum
+            setReload={setReload.bind(this)}
+            reload={reload}
+            toaster={toaster}
+            data={row}
+          />
         </div>
       ),
     },

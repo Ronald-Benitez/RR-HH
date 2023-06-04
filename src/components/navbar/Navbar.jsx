@@ -47,6 +47,7 @@ export default function Navbar() {
                 <DropdownLinker
                   placeholder={"Reclutamiento"}
                   links={[
+                    { label: "Candidatos", url: "/candidates" },
                     { label: "Areas", url: "/areas" },
                     { label: "Puestos", url: "/positions" },
                   ]}
