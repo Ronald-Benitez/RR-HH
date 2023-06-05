@@ -53,7 +53,6 @@ export default function Tracking({
       state,
       comment: rebase,
     };
-    console.log(send);
 
     updateCandidate(send)
       .then(() => {
@@ -79,7 +78,6 @@ export default function Tracking({
       state,
       comment: rebase,
     };
-    console.log(send);
 
     updateCandidate(send)
       .then(() => {
