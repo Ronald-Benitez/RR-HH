@@ -7,7 +7,6 @@ import { createVacation, updateVacation } from "../../firebase/vacations";
 import { getEmployees } from "../../firebase/employees";
 import deductions from "../../config/deductions";
 import { FixedMultiplier } from "../../utils/DataConversion";
-import { set } from "react-hook-form";
 
 export default function AddVacationModal({
   toaster,
@@ -86,7 +85,9 @@ export default function AddVacationModal({
         .add(deductions.vacaciones.dias - 1, "days")
         .format("YYYY-MM-DD")
     );
+  }, [dateSelected]);
 
+  useEffect(() => {
     getEmployees()
       .then((employeeData) => {
         const employeeList = employeeData.docs.map((employee) => ({
@@ -100,7 +101,7 @@ export default function AddVacationModal({
       .catch((error) => {
         toaster.error("Error al cargar los empleados");
       });
-  }, [dateSelected]);
+  }, []);
 
   useEffect(() => {
     if (data) {

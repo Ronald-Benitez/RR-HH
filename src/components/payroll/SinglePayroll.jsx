@@ -30,7 +30,8 @@ export default function SinglePayroll({ see, setSee, data }) {
               Bonos: <small>${data.extras?.bonuses}</small>
             </p>
             <strong>
-              Salario bruto: <small>${data.bruteSalary}</small>
+              Salario bruto:{" "}
+              <small>${data.bruteSalary + data?.disabilities}</small>
             </strong>
           </div>
           <div className="col-12 col-md-6">
@@ -44,8 +45,18 @@ export default function SinglePayroll({ see, setSee, data }) {
             <p>
               Renta: <small>${data?.renta}</small>
             </p>
+            <p>
+              Incapacidad (pagada por ISSS):{" "}
+              <small>${data?.disabilities}</small>
+            </p>
+            <p>
+              Días de incapacidad: <small>{data?.daysDisability}</small>
+            </p>
             <strong>
-              Total descuentos: <small>${data.totalDeductionsEmployee}</small>
+              Total descuentos:{" "}
+              <small>
+                ${data.totalDeductionsEmployee + data?.disabilities}
+              </small>
             </strong>
           </div>
         </div>

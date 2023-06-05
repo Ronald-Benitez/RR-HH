@@ -37,9 +37,7 @@ export default function Navbar() {
                   links={[
                     { label: "Empleados", url: "/employees" },
                     { label: "Planilla", url: "/payroll" },
-                    { label: "Horas extra", url: "/overtime" },
                     { label: "Bonos", url: "/bonuses" },
-                    { label: "Vacaciones", url: "/vacations" },
                   ]}
                 />
               </li>
@@ -50,6 +48,17 @@ export default function Navbar() {
                     { label: "Candidatos", url: "/candidates" },
                     { label: "Areas", url: "/areas" },
                     { label: "Puestos", url: "/positions" },
+                  ]}
+                />
+              </li>
+              <li className="nav-item">
+                <DropdownLinker
+                  placeholder={"Tiempo"}
+                  links={[
+                    { label: "Incapacidades", url: "/disabilities" },
+                    { label: "Ausencias", url: "/absences" },
+                    { label: "Horas extra", url: "/overtime" },
+                    { label: "Vacaciones", url: "/vacations" },
                   ]}
                 />
               </li>

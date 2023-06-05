@@ -41,6 +41,11 @@ export default function TableEmployee({ data }) {
       sortable: true,
     },
     {
+      name: "Incapacidad",
+      selector: (row) => "$" + row?.disabilities,
+      sortable: true,
+    },
+    {
       name: "Aguinaldo",
       selector: (row) => "$" + row.aguinaldo,
       sortable: true,

@@ -64,6 +64,9 @@
     "nocturnas": 2.25,
     "festivas": 2,
     "descanso": 0.5
+  },
+  "incapacidad": {
+    "dias": 3,
+    "contexto": "Limite de días pagados en incapacidad"
   }
-
 }

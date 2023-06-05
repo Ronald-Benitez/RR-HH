@@ -11,6 +11,8 @@ import Bonuses from "./pages/Bonuses";
 import Vacations from "./pages/Vacations";
 import Positions from "./pages/Positions";
 import Candidates from "./pages/Candidates";
+import Absences from "./pages/Absences";
+import Disabilities from "./pages/Disabilities";
 
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
           exact
           path="/candidates"
           component={authMiddleware(Candidates)}
+        />
+        <Route exact path="/absences" component={authMiddleware(Absences)} />
+        <Route
+          exact
+          path="/disabilities"
+          component={authMiddleware(Disabilities)}
         />
       </Switch>
     </Router>

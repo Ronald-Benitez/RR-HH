@@ -17,6 +17,19 @@ export default function Table({ toaster, reload, setReload }) {
   const [employeeData, setEmployeeData] = useState({});
   const [edit, setEdit] = useState(false);
   const [see, setSee] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]);
+
+  const handleFinder = (e) => {
+    const value = e.target.value.toLowerCase();
+    const results = employees?.filter((employee) => {
+      return (
+        employee.names.toLowerCase().includes(value) ||
+        employee.lastNames.toLowerCase().includes(value)
+      );
+    });
+    setFilteredData(results);
+  };
 
   const handleDelete = (id) => {
     deleteEmployee(id)
@@ -42,6 +55,10 @@ export default function Table({ toaster, reload, setReload }) {
         toaster.error(error.message);
       });
   }, [reload]);
+
+  useEffect(() => {
+    setData(filteredData?.length > 0 ? filteredData : employees);
+  }, [employees, filteredData]);
 
   const columns = [
     {
@@ -113,10 +130,23 @@ export default function Table({ toaster, reload, setReload }) {
 
   return (
     <div className="container bg-black p-2 mt-4">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-4">
+          <div className="input-group mb-3">
+            <span className="input-group-text">Filtrar</span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre/Apellido"
+              onChange={(e) => handleFinder(e)}
+            />
+          </div>
+        </div>
+      </div>
       <DataTable
         title="Empleados"
         columns={columns}
-        data={employees}
+        data={data}
         pagination
         paginationPerPage={5}
         paginationRowsPerPageOptions={[5, 10, 15]}

@@ -32,6 +32,7 @@ const CalculatePayroll = (data, date) => {
     parseFloat(extras.bonuses) +
     parseFloat(extras.vacation);
   salary = parseFloat(salary.toFixed(2));
+  salary -= parseFloat(data.disabilities);
 
   let insaforp = 0;
 
@@ -86,7 +87,8 @@ const CalculatePayroll = (data, date) => {
     (parseFloat(data.salary) || 0) +
     (parseFloat(extras.overtime) || 0) +
     (parseFloat(extras.bonuses) || 0) +
-    (parseFloat(extras.vacation) || 0);
+    (parseFloat(extras.vacation) || 0) -
+    (parseFloat(data.disabilities) || 0);
 
   const totalDeductionsEmployee =
     (parseFloat(isss.employee) || 0) +
@@ -117,8 +119,10 @@ const CalculatePayroll = (data, date) => {
     totalPatronal: totalPatronal.toFixed(2),
     bruteSalary,
     totalDeductionsEmployee,
-    totalDeductionsEmployer,
+    totalDeductionsEmployer: totalDeductionsEmployer.toFixed(2),
     month,
+    disabilities: parseFloat(data.disabilities) || 0,
+    daysDisability: data.daysDisability || 0,
   };
 
   return result;
