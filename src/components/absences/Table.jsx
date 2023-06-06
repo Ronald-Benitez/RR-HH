@@ -5,43 +5,39 @@ import moment from "moment/moment";
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
-import { deleteDisability } from "../../firebase/disabilities";
-import AddDisabilityModal from "./AddDisabilityModal";
 import Icon from "../utils/Icon";
+import { deleteAbsence } from "../../firebase/absences";
+import AddAbsencesModal from "./AddAbsencesModal";
+import SeeModal from "./SeeModal";
 
-export default function Table({
-  disabilities,
-  toaster,
-  reload,
-  setReload,
-  date,
-}) {
+export default function Table({ absences, toaster, reload, setReload, date }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [selectedDisability, setSelectedDisability] = useState({});
+  const [selectedAbsence, setSelectedAbsence] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  const [seeModalIsOpen, setSeeModalIsOpen] = useState(false);
 
   const handleFinder = (e) => {
     const value = e.target.value.toLowerCase();
-    const results = disabilities.filter((disability) => {
-      return disability.name.toLowerCase().includes(value);
+    const results = absences.filter((absence) => {
+      return absence.name.toLowerCase().includes(value);
     });
     setFilteredData(results);
   };
 
   useEffect(() => {
-    setData(filteredData.length > 0 ? filteredData : disabilities);
-  }, [disabilities, filteredData]);
+    setData(filteredData.length > 0 ? filteredData : absences);
+  }, [absences, filteredData]);
 
   useEffect(() => {
     setFilteredData([]);
   }, [date]);
 
   const handleDelete = () => {
-    deleteDisability(selectedDisability)
+    deleteAbsence(selectedAbsence)
       .then(() => {
-        toaster.success("Incapacidad eliminada exitosamente");
+        toaster.success("Ausencia eliminada exitosamente");
         setReload(!reload);
       })
       .catch((error) => {
@@ -77,13 +73,38 @@ export default function Table({
       sortable: true,
     },
     {
+      name: "Tipo",
+      cell: (row) => {
+        return row.type == "Justificada" ? (
+          <span className="badge bg-success">{row.type}</span>
+        ) : (
+          <span className="badge bg-danger">{row.type}</span>
+        );
+      },
+      sortable: true,
+    },
+    {
+      name: "Comentarios",
+      selector: (row) => row.comment,
+      sortable: true,
+    },
+    {
       name: "Acciones",
       cell: (row) => (
         <div className="actions">
           <button
+            className="btn btn-outline-light btn-sm m-1"
+            onClick={() => {
+              setSelectedAbsence(row);
+              setSeeModalIsOpen(true);
+            }}
+          >
+            <Icon icon="eye" />
+          </button>
+          <button
             className="btn btn-outline-warning btn-sm m-1"
             onClick={() => {
-              setSelectedDisability(row);
+              setSelectedAbsence(row);
               setEdit(true);
             }}
           >
@@ -92,7 +113,7 @@ export default function Table({
           <button
             className="btn  btn-outline-danger btn-sm m-1"
             onClick={() => {
-              setSelectedDisability(row);
+              setSelectedAbsence(row);
               setIsOpen(true);
             }}
           >
@@ -119,7 +140,7 @@ export default function Table({
         </div>
       </div>
       <DataTable
-        title="Incapacidades"
+        title="Faltas"
         columns={columns}
         data={filteredData.length > 0 ? filteredData : data}
         pagination
@@ -141,8 +162,8 @@ export default function Table({
       <ModalConfirm
         show={modalIsOpen}
         setShow={setIsOpen}
-        title="Eliminar incapacidad"
-        message="¿Está seguro que desea eliminar esta incapacidad?"
+        title="Eliminar falta"
+        message="¿Está seguro que desea eliminar esta falta?"
         onConfirm={() => {
           handleDelete();
           setIsOpen(false);
@@ -150,16 +171,21 @@ export default function Table({
         onCancel={() => setIsOpen(false)}
       />
       {edit && (
-        <AddDisabilityModal
+        <AddAbsencesModal
           setReload={setReload.bind(this)}
           reload={reload}
           edit={edit}
           setEdit={setEdit.bind(this)}
-          data={selectedDisability}
+          data={selectedAbsence}
           toaster={toaster}
           dateSelected={moment(date).format("YYYY-MM-DD")}
         />
       )}
+      <SeeModal
+        show={seeModalIsOpen}
+        setShow={setSeeModalIsOpen}
+        data={selectedAbsence}
+      />
     </>
   );
 }

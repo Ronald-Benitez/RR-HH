@@ -1,13 +1,10 @@
-import React from "react";
 import Modal from "react-modal";
 import moment from "moment/moment";
-import "moment/locale/es";
 
 import ModalStyle from "../../utils/ModalStyle";
-import Icon from "../utils/Icon";
 
 export default function SeeModal({ see, setSee, data }) {
-  moment.locale("es");
+  Modal.setAppElement("#root");
   return (
     <Modal isOpen={see} onRequestClose={() => setSee(false)} style={ModalStyle}>
       <div className="container overflow-auto">

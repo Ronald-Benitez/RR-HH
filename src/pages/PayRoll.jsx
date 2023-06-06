@@ -8,13 +8,17 @@ import { getOvertimes } from "../firebase/overtime";
 import { getBonuses } from "../firebase/bonuses";
 import { getVacations } from "../firebase/vacations";
 import { getDisabilities } from "../firebase/disabilities";
+import { getAbsences } from "../firebase/absences";
 import CalculatePayroll from "../utils/PayrollCalculator";
 import {
   calculateOvertime,
   calculateBonuses,
   calculateVacations,
 } from "../utils/ExtrasCalculator";
-import { calculateDisabilities } from "../utils/TimeDiscounts";
+import {
+  calculateDisabilities,
+  calculateAbsences,
+} from "../utils/TimeDiscounts";
 
 import TableEmployee from "../components/payroll/TableEmployee";
 import TableEmployer from "../components/payroll/TableEmployer";
@@ -31,6 +35,7 @@ export default function PayRoll() {
   const [bonuses, setBonuses] = useState([]);
   const [vacations, setVacations] = useState([]);
   const [disabilities, setDisabilities] = useState([]);
+  const [absences, setAbsences] = useState([]);
 
   const sumTotals = () => {
     const totals = {
@@ -45,6 +50,10 @@ export default function PayRoll() {
       totalVacations: 0,
       totalAguinaldo: 0,
       totalInsaforp: 0,
+      totalAbsences: 0,
+      totalDisabilities: 0,
+      totalBrute: 0,
+      totalPatronal: 0,
     };
 
     payroll.forEach((employee) => {
@@ -59,6 +68,10 @@ export default function PayRoll() {
       totals.totalVacations += employee.extras.vacation;
       totals.totalAguinaldo += employee.aguinaldo;
       totals.totalInsaforp += employee.insaforp;
+      totals.totalAbsences += employee.absences;
+      totals.totalDisabilities += employee.disabilities;
+      totals.totalBrute += employee.bruteSalary;
+      totals.totalPatronal += employee.totalPatronal;
     });
 
     Object.keys(totals).forEach((key) => {
@@ -82,6 +95,8 @@ export default function PayRoll() {
           bonuses: 0,
           disabilities: 0,
           daysDisability: 0,
+          absences: 0,
+          daysAbsence: 0,
         }));
         setEmployees(data);
       })
@@ -120,6 +135,14 @@ export default function PayRoll() {
       }));
       setDisabilities(data || []);
     });
+
+    getAbsences(moment(date).format("YYYY")).then((absences) => {
+      const data = absences.docs.map((absence) => ({
+        id: absence.id,
+        ...absence.data(),
+      }));
+      setAbsences(data || []);
+    });
   }, [date]);
 
   useEffect(() => {
@@ -134,6 +157,7 @@ export default function PayRoll() {
     calculateBonuses(employees, bonuses);
     calculateVacations(employees, vacations, date);
     calculateDisabilities(employees, disabilities, date);
+    calculateAbsences(employees, absences, date);
   };
 
   return (

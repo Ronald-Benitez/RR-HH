@@ -3,10 +3,10 @@ import Modal from "react-modal";
 import moment from "moment/moment";
 
 import ModalStyle from "../../utils/ModalStyle";
-import { createDisability } from "../../firebase/disabilities";
+import { createAbsence } from "../../firebase/absences";
 import { getEmployees } from "../../firebase/employees";
 
-export default function AddDisabilityModal({
+export default function AddAbsencesModal({
   toaster,
   reload,
   setReload,
@@ -23,13 +23,15 @@ export default function AddDisabilityModal({
   const [date, setDate] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
+  const [type, setType] = useState("");
+  const [comment, setComment] = useState("");
 
   const [selectedEmployee, setSelectedEmployee] = useState({});
   const [id, setId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (start < end) {
+    if (start > end) {
       toaster.error("La fecha de inicio debe ser menor a la fecha de fin");
       return;
     }
@@ -39,16 +41,16 @@ export default function AddDisabilityModal({
       date,
       start,
       end,
-      year: moment(date).format("YYYY"),
       name: selectedEmployee.name,
       cargo: selectedEmployee.cargo,
       id,
-      month: moment(date).format("MMMM"),
+      type,
+      comment,
     };
-    createDisability(sendData)
+    createAbsence(sendData)
       .then(() => {
         toaster.success(
-          `Incapacidad ${edit ? "actualizada" : "creada"} exitosamente`
+          `Ausencia ${edit ? "actualizada" : "creada"} exitosamente`
         );
         setReload(!reload);
         setEdit && setEdit(false);
@@ -63,7 +65,8 @@ export default function AddDisabilityModal({
   const clearForm = () => {
     setEmployee("");
     setSelectedEmployee({});
-    setId("");
+    setType("");
+    setComment("");
   };
 
   useEffect(() => {
@@ -83,24 +86,26 @@ export default function AddDisabilityModal({
   }, []);
 
   useEffect(() => {
+    if (edit) {
+      setEmployee(data.employee);
+      setSelectedEmployee(data);
+      setDate(data.date);
+      setStart(data.start);
+      setEnd(data.end);
+      setType(data.type);
+      setComment(data.comment);
+      setId(data.id);
+      setIsOpen(edit);
+    }
+  }, [edit, data]);
+
+  useEffect(() => {
     if (dateSelected) {
       setDate(dateSelected);
       setStart(dateSelected);
       setEnd(dateSelected);
     }
   }, [dateSelected]);
-
-  useEffect(() => {
-    if (edit) {
-      setEmployee(data.employee);
-      setDate(data.date);
-      setStart(data.start);
-      setEnd(data.end);
-      setSelectedEmployee(data);
-      setId(data.id);
-      setIsOpen(edit);
-    }
-  }, [edit, data]);
 
   return (
     <>
@@ -111,7 +116,7 @@ export default function AddDisabilityModal({
             setIsOpen(true);
           }}
         >
-          Registrar incapacidad
+          Registrar ausencia
         </button>
       )}
       <Modal
@@ -127,12 +132,15 @@ export default function AddDisabilityModal({
           <div className="row">
             <div className="col-12">
               <h2 className="text-center">
-                {edit ? "Editar" : "Registrar"} incapacidad
+                {edit ? "Editar" : "Registrar"} ausencia
               </h2>
 
               <form onSubmit={handleSubmit}>
                 <div className="form-group p-4">
-                  <label htmlFor="employee">Empleado</label>
+                  <label htmlFor="employee" className="mt-3">
+                    Empleado
+                  </label>
+
                   <select
                     className="form-control"
                     id="employee"
@@ -140,15 +148,16 @@ export default function AddDisabilityModal({
                     onChange={(e) => {
                       setEmployee(e.target.value);
                       const selected = employees.find(
-                        (item) => item.id === e.target.value
+                        (employee) => employee.id === e.target.value
                       );
                       setSelectedEmployee(selected);
                     }}
+                    required
                   >
                     <option value="">Seleccione un empleado</option>
-                    {employees?.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name} - {item.cargo}
+                    {employees.map((employee) => (
+                      <option key={employee.id} value={employee.id}>
+                        {employee.name}
                       </option>
                     ))}
                   </select>
@@ -162,6 +171,7 @@ export default function AddDisabilityModal({
                     id="start"
                     value={start}
                     onChange={(e) => setStart(e.target.value)}
+                    required
                   />
 
                   <label htmlFor="end" className="mt-3">
@@ -173,26 +183,55 @@ export default function AddDisabilityModal({
                     id="end"
                     value={end}
                     onChange={(e) => setEnd(e.target.value)}
+                    required
                   />
-                </div>
-                <div className="row justify-content-center">
-                  <button
-                    type="submit"
-                    className="btn btn-outline-light col-12 col-md-5 m-1"
-                  >
-                    {edit ? "Editar" : "Registrar"}
-                  </button>
 
-                  <button
-                    type="button"
-                    className="btn btn-outline-light btn-block col-12 col-md-5 m-1"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setEdit && setEdit(false);
-                    }}
+                  <label htmlFor="type" className="mt-3">
+                    Tipo
+                  </label>
+                  <select
+                    className="form-control"
+                    id="type"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    required
                   >
-                    Cancelar
-                  </button>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="Justificada">Justificada</option>
+                    <option value="Injustificada">Injustificada</option>
+                  </select>
+
+                  <label htmlFor="comment" className="mt-3">
+                    Comentario
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="comment"
+                    rows="3"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+
+                  <div className="row justify-content-center mt-4">
+                    <button
+                      type="submit"
+                      className="btn btn-outline-light m-1 col-12 col-md-5"
+                    >
+                      {edit ? "Editar" : "Registrar"}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-outline-light m-1 col-12 col-md-5"
+                      onClick={() => {
+                        setIsOpen(false);
+                        setEdit && setEdit(false);
+                        clearForm();
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

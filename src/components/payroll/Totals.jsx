@@ -7,19 +7,9 @@ import { confirmPasswordReset } from "firebase/auth";
 export default function Totals({ see, setSee, data }) {
   Modal.setAppElement("#root");
   const [totals, setTotals] = useState(data);
-  const [totalPayroll, setTotalPayroll] = useState(0);
 
   useEffect(() => {
     setTotals(data);
-    setTotalPayroll(
-      data.totalSalaries +
-        data.totalAfpEmployer +
-        data.totalIsssEmployer +
-        data.totalExtraHours +
-        data.totalBonuses +
-        data.totalVacations +
-        data.totalAguinaldo
-    );
   }, [data]);
 
   return (
@@ -37,7 +27,13 @@ export default function Totals({ see, setSee, data }) {
           <div className="col-md-6 col-lg-4 mb-4">
             <div className="text-right p-3">
               <h3 className="h5 font-weight-bold text-right">Salarios</h3>
-              <p className="mb-1 text-right">Total: ${totals.totalSalaries}</p>
+              <p className="mb-1 text-right">Base: ${totals.totalSalaries}</p>
+              <p className="mb-1 text-right">
+                Faltas injustificas: ${totals.totalAbsences}
+              </p>
+              <p className="mb-1 text-right">
+                Incapacidades: ${totals.totalDisabilities}
+              </p>
             </div>
           </div>
           <div className="col-md-6 col-lg-4 mb-4">
@@ -86,7 +82,7 @@ export default function Totals({ see, setSee, data }) {
             <div className="text-right p-3">
               <h3 className="h5 font-weight-bold text-right">Total planilla</h3>
               <p className="mb-1 text-right">
-                Total: ${totalPayroll.toFixed(2)}
+                Total: ${data.totalPatronal}
               </p>
             </div>
           </div>

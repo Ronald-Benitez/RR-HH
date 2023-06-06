@@ -33,6 +33,10 @@ const CalculatePayroll = (data, date) => {
     parseFloat(extras.vacation);
   salary = parseFloat(salary.toFixed(2));
   salary -= parseFloat(data.disabilities);
+  salary -= parseFloat(data.absences);
+  salary = parseFloat(salary.toFixed(2));
+
+  const totalLaboral = salary;
 
   let insaforp = 0;
 
@@ -81,14 +85,17 @@ const CalculatePayroll = (data, date) => {
     (parseFloat(extras.overtime) || 0) +
     (parseFloat(extras.bonuses) || 0) +
     (parseFloat(extras.vacation) || 0) +
-    (parseFloat(aguinaldo) || 0);
+    (parseFloat(aguinaldo) || 0)-
+    (parseFloat(data.disabilities) || 0) -
+    (parseFloat(data.absences) || 0);
 
   const bruteSalary =
     (parseFloat(data.salary) || 0) +
     (parseFloat(extras.overtime) || 0) +
     (parseFloat(extras.bonuses) || 0) +
     (parseFloat(extras.vacation) || 0) -
-    (parseFloat(data.disabilities) || 0);
+    (parseFloat(data.disabilities) || 0) -
+    (parseFloat(data.absences) || 0);
 
   const totalDeductionsEmployee =
     (parseFloat(isss.employee) || 0) +
@@ -116,13 +123,17 @@ const CalculatePayroll = (data, date) => {
     cargo: data.cargo,
     insaforp,
     aguinaldo: parseFloat(aguinaldo) || 0,
-    totalPatronal: totalPatronal.toFixed(2),
-    bruteSalary,
-    totalDeductionsEmployee,
+    totalPatronal: parseFloat(totalPatronal.toFixed(2)),
+    bruteSalary: parseFloat(bruteSalary.toFixed(2)),
+    totalDeductionsEmployee: totalDeductionsEmployee.toFixed(2),
     totalDeductionsEmployer: totalDeductionsEmployer.toFixed(2),
     month,
     disabilities: parseFloat(data.disabilities) || 0,
     daysDisability: data.daysDisability || 0,
+    absences: parseFloat(data.absences.toFixed(2)) || 0,
+    daysAbsence: data.daysAbsence || 0,
+    totalLaboral,
+    date,
   };
 
   return result;

@@ -30,11 +30,7 @@ export const calculateDisabilities = (data, disabilities, date) => {
           );
           employee.daysDisability += time;
         } else {
-          const time = calculateDaysDisability(
-            moment(row.start),
-            moment(row.end),
-            date
-          );
+          const time = calculateDays(moment(row.start), moment(row.end), date);
           employee.disabilities += calculateValueDisability(
             employee.salary,
             time.days - time.less
@@ -57,11 +53,15 @@ const verifyMonth = (start, end) => {
   return false;
 };
 
-const calculateDaysDisability = (start, end, date) => {
-  if (start.month() === date.month()) {
+const calculateDays = (start, end, date) => {
+  const startFormatted = moment(start).format("YYYY-MM-DD");
+  const endFormatted = moment(end).format("YYYY-MM-DD");
+  const dateFormatted = moment(date).format("YYYY-MM-DD");
+
+  if (startFormatted === dateFormatted) {
     const lastDay = start.endOf("month");
     const days = lastDay.diff(start, "days") + 1;
-    return { days, less };
+    return { days, less: daysD };
   } else {
     const firstDay = moment(end).startOf("month");
     const days = end.diff(firstDay, "days") + 1;
@@ -70,6 +70,53 @@ const calculateDaysDisability = (start, end, date) => {
 };
 
 const calculateValueDisability = (salary, days) => {
+  const salaryD = (salary / 30).toFixed(2);
+  return salaryD * (days > 0 ? days : 0);
+};
+
+export const calculateAbsences = (data, absences, date) => {
+  const updatedData = [...data]; // Crear una copia del arreglo original
+
+  updatedData.forEach((employee) => {
+    employee.absences = 0;
+    employee.daysAbsence = 0;
+  });
+
+  Object.values(absences).map((row) => {
+    if(row.type == "Justificada") return;
+
+    const employee = updatedData.find(
+      (employee) => employee.id === row.employee
+    );
+
+    if (employee) {
+      if (
+        moment(row.start).month() === date.month() ||
+        moment(row.end).month() === date.month()
+      ) {
+        if (verifyMonth(row.start, row.end)) {
+          const time = moment(row.end).diff(moment(row.start), "days") + 1;
+          employee.absences += calculateValueAbsence(employee.salary, time);
+          employee.daysAbsence += time;
+        } else {
+          if (moment(row.start).month() === date.month()) {
+            const lastDay = moment(row.start).endOf("month");
+            const days = lastDay.diff(row.start, "days") + 1;
+            employee.absences += calculateValueAbsence(employee.salary, days);
+            employee.daysAbsence += days;
+          } else {
+            const firstDay = moment(row.end).startOf("month");
+            const days = moment(row.end).diff(firstDay, "days") + 1;
+            employee.absences += calculateValueAbsence(employee.salary, days);
+            employee.daysAbsence += days;
+          }
+        }
+      }
+    }
+  });
+};
+
+const calculateValueAbsence = (salary, days) => {
   const salaryD = (salary / 30).toFixed(2);
   return salaryD * (days > 0 ? days : 0);
 };
