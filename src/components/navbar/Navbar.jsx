@@ -63,6 +63,14 @@ export default function Navbar() {
                 />
               </li>
               <li className="nav-item">
+                <DropdownLinker
+                  placeholder={"Evaluación"}
+                  links={[
+                    { label: "Plantilla", url: "/evaluation-template" },
+                  ]}
+                />
+              </li>
+              <li className="nav-item">
                 <ResetPassword />
               </li>
               <li className="nav-item">

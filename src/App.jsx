@@ -13,6 +13,7 @@ import Positions from "./pages/Positions";
 import Candidates from "./pages/Candidates";
 import Absences from "./pages/Absences";
 import Disabilities from "./pages/Disabilities";
+import EvaluationTemplate from "./pages/EvaluationTemplate";
 
 function App() {
   return (
@@ -37,6 +38,11 @@ function App() {
           exact
           path="/disabilities"
           component={authMiddleware(Disabilities)}
+        />
+        <Route
+          exact
+          path="/evaluation-template"
+          component={authMiddleware(EvaluationTemplate)}
         />
       </Switch>
     </Router>
