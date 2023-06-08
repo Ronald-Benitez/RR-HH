@@ -29,6 +29,8 @@ export default function AddModal({
       return toaster.error("Debe agregar al menos un criterio");
     if (weightList.length === 0)
       return toaster.error("Debe agregar al menos un peso");
+    if (weightList.reduce((a, b) => Number(a) + Number(b), 0) !== 100)
+      return toaster.error("La suma de los pesos debe ser 100");
 
     const sendData = {
       name,
@@ -66,7 +68,6 @@ export default function AddModal({
   const verifyTotalWeight = () => {
     let total = 0;
     weightList.forEach((weight) => {
-      console.log(weight);
       total += parseFloat(weight);
     });
 
@@ -94,6 +95,7 @@ export default function AddModal({
     setWeightList([]);
     setCriteria("");
     setWeight(0);
+    setName("");
   };
 
   return (
@@ -191,7 +193,7 @@ export default function AddModal({
                     Agregar criterio
                   </button>
                 </div>
-                <div className="col-12 mt-3">
+                <div className="col-12 mt-3 p-3">
                   <table className="table table-dark table-striped table-hover">
                     <thead>
                       <tr>
@@ -201,23 +203,19 @@ export default function AddModal({
                       </tr>
                     </thead>
                     <tbody>
-                      {criteriaList.map((criteria, index) => (
+                      {weightList.map((weight, index) => (
                         <tr key={index}>
-                          <td>{criteria}</td>
-                          <td>{weightList[index]}%</td>
+                          <td>{criteriaList[index]}</td>
+                          <td>{weight}%</td>
                           <td>
                             <button
                               className="btn btn-outline-light"
                               onClick={() => {
-                                setCriteriaList(
-                                  criteriaList.filter(
-                                    (item) => item !== criteria
-                                  )
+                                setCriteriaList((prevCriteriaList) =>
+                                  prevCriteriaList.filter((_, i) => i !== index)
                                 );
-                                setWeightList(
-                                  weightList.filter(
-                                    (item) => item !== weightList[index]
-                                  )
+                                setWeightList((prevWeightList) =>
+                                  prevWeightList.filter((_, i) => i !== index)
                                 );
                               }}
                             >
@@ -226,6 +224,19 @@ export default function AddModal({
                           </td>
                         </tr>
                       ))}
+                      <tr>
+                        <td>
+                          <strong>Total</strong>
+                        </td>
+                        <td>
+                          {weightList.reduce(
+                            (total, weight) => total + parseFloat(weight),
+                            0
+                          )}
+                          %
+                        </td>
+                        <td></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

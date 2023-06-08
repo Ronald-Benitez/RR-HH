@@ -1,16 +1,35 @@
 import { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+try {
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+} catch (error) {
+  console.error("Failed to load fonts from vfs. Defaulting to fallback fonts.");
+  pdfMake.vfs = {
+    Roboto: {
+      normal:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
+      bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
+      italics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
+      bolditalics:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
+    },
+  };
+}
+
 import {
   getEvaluationTemplates,
   deleteEvaluationTemplate,
 } from "../../firebase/evaluationTemplate";
-
-import DataTable from "react-data-table-component";
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
 import ModalConfirm from "../utils/ModalConfirm";
 import AddModal from "./AddModal";
 import Icon from "../utils/Icon";
 import SeeTemplate from "./SeeTemplate";
+import Criteria from "../../pdf/Criteria";
 
 export default function Table({ toaster, reload, setReload }) {
   const [data, setData] = useState([]);
@@ -29,6 +48,11 @@ export default function Table({ toaster, reload, setReload }) {
       return evaluationTemplate.name.toLowerCase().includes(value);
     });
     setFilteredData(results);
+  };
+
+  const handlePdf = (evaluationTemplate) => {
+    const docDefinition = Criteria(evaluationTemplate);
+    pdfMake.createPdf(docDefinition).open();
   };
 
   useEffect(() => {
@@ -103,6 +127,14 @@ export default function Table({ toaster, reload, setReload }) {
           >
             <Icon icon="trash" />
           </button>
+          <button
+            className="btn btn-sm btn-outline-success m-2"
+            onClick={() => {
+              handlePdf(row);
+            }}
+          >
+            <Icon icon="pdf" />
+          </button>
         </div>
       ),
     },
@@ -155,14 +187,17 @@ export default function Table({ toaster, reload, setReload }) {
           }}
           onCancel={() => setIsOpen(false)}
         />
-        <AddModal
-          setReload={setReload.bind(this)}
-          reload={reload}
-          toaster={toaster}
-          data={selectedEvaluationTemplate}
-          edit={edit}
-          setEdit={setEdit.bind(this)}
-        />
+        {edit && (
+          <AddModal
+            setReload={setReload.bind(this)}
+            reload={reload}
+            toaster={toaster}
+            data={selectedEvaluationTemplate}
+            edit={edit}
+            setEdit={setEdit.bind(this)}
+          />
+        )}
+
         <SeeTemplate
           see={see}
           setSee={setSee.bind(this)}

@@ -66,7 +66,10 @@ export default function Navbar() {
                 <DropdownLinker
                   placeholder={"Evaluación"}
                   links={[
-                    { label: "Plantilla", url: "/evaluation-template" },
+                    { label: "Evaluar", url: "/evaluations" },
+                    { label: "Evaluaciones", url: "/evaluations-list" },
+                    { label: "Plantillas con criterios", url: "/criteria-template" },
+                    { label: "Plantillas con preguntas", url: "/question-template" },
                   ]}
                 />
               </li>

@@ -13,7 +13,10 @@ import Positions from "./pages/Positions";
 import Candidates from "./pages/Candidates";
 import Absences from "./pages/Absences";
 import Disabilities from "./pages/Disabilities";
-import EvaluationTemplate from "./pages/EvaluationTemplate";
+import CriteriaTemplate from "./pages/CriteriaTemplate";
+import QuestionsTemplate from "./pages/QuestionsTemplate";
+import Evaluations from "./pages/Evaluations";
+import EvaluationsList from "./pages/EvaluationsList";
 
 function App() {
   return (
@@ -41,8 +44,23 @@ function App() {
         />
         <Route
           exact
-          path="/evaluation-template"
-          component={authMiddleware(EvaluationTemplate)}
+          path="/question-template"
+          component={authMiddleware(QuestionsTemplate)}
+        />
+        <Route
+          exact
+          path="/criteria-template"
+          component={authMiddleware(CriteriaTemplate)}
+        />
+        <Route
+          exact
+          path="/evaluations"
+          component={authMiddleware(Evaluations)}
+        />
+        <Route
+          exact
+          path="/evaluations-list"
+          component={authMiddleware(EvaluationsList)}
         />
       </Switch>
     </Router>
