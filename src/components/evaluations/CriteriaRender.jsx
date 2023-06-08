@@ -17,6 +17,7 @@ export default function CriteriaRender({
   const [puntuationList, setPuntuationList] = useState([]);
   const [comments, setComments] = useState("");
 
+
   useEffect(() => {
     const puntuations = data?.weightList?.map((weight) => {
       return 0;

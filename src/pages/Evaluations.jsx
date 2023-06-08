@@ -140,8 +140,8 @@ export default function Evaluations() {
                   data={selectedTemplate}
                   employee={selectedEmployee}
                   toaster={toast}
-                  setData={selectedTemplate.bind(this)}
-                  setEmployee={selectedEmployee.bind(this)}
+                  setData={setSelectedTemplate.bind(this)}
+                  setEmployee={setSelectedEmployee.bind(this)}
                 />
               )
             : null}
@@ -152,8 +152,8 @@ export default function Evaluations() {
                   data={selectedTemplate}
                   employee={selectedEmployee}
                   toaster={toast}
-                  setData={selectedTemplate.bind(this)}
-                  setEmployee={selectedEmployee.bind(this)}
+                  setData={setSelectedTemplate.bind(this)}
+                  setEmployee={setSelectedEmployee.bind(this)}
                 />
               )
             : null}
