@@ -2,8 +2,15 @@ import { useState, useEffect } from "react";
 
 import { createEvaluation } from "../../firebase/evaluations";
 import moment from "moment/moment";
+import { set } from "react-hook-form";
 
-export default function QuestionRender({ data, toaster, employee }) {
+export default function QuestionRender({
+  data,
+  toaster,
+  employee,
+  setData,
+  setEmployee,
+}) {
   const [answers, setAnswers] = useState([]);
   const [comments, setComments] = useState("");
 
@@ -39,6 +46,8 @@ export default function QuestionRender({ data, toaster, employee }) {
     createEvaluation(moment().format("YYYY"), sendData)
       .then(() => {
         toaster.success("Evaluación creada exitosamente");
+        setData({});
+        setEmployee({});
       })
       .catch((error) => {
         toaster.error(error.message);

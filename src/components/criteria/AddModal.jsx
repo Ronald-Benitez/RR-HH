@@ -252,6 +252,18 @@ export default function AddModal({
               </div>
             </form>
           </div>
+          <div className="row px-5">
+            <button
+              className="btn btn-outline-light mt-3"
+              onClick={() => {
+                setIsOpen(false);
+                clearForm();
+                setEdit && setEdit(false);
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       </Modal>
     </>

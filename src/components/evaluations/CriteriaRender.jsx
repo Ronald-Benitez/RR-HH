@@ -6,7 +6,13 @@ import customStyles from "../../utils/tableCustomStyles";
 import { createEvaluation } from "../../firebase/evaluations";
 import moment from "moment/moment";
 
-export default function CriteriaRender({ data, toaster, employee }) {
+export default function CriteriaRender({
+  data,
+  toaster,
+  employee,
+  setData,
+  setEmployee,
+}) {
   const [weightList, setWeightList] = useState([]);
   const [puntuationList, setPuntuationList] = useState([]);
   const [comments, setComments] = useState("");
@@ -93,6 +99,8 @@ export default function CriteriaRender({ data, toaster, employee }) {
     createEvaluation(moment().format("YYYY"), sendData)
       .then(() => {
         toaster.success("Evaluación creada exitosamente");
+        setData({});
+        setEmployee({});
       })
       .catch((error) => {
         toaster.error(error.message);
