@@ -1,23 +1,8 @@
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import pdfMake from "pdfmake/build/pdfmake";
-// import pdfFonts from "pdfmake/build/vfs_fonts";
-try {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-} catch (error) {
-  console.error("Failed to load fonts from vfs. Defaulting to fallback fonts.");
-  pdfMake.vfs = {
-    Roboto: {
-      normal:
-        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
-      bold: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
-      italics:
-        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
-      bolditalics:
-        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
-    },
-  };
-}
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 import {
   getEvaluationTemplates,
