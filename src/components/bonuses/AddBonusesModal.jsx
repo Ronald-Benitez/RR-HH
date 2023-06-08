@@ -136,6 +136,7 @@ export default function AddBonusesModal({
                     required
                     id="employee"
                     value={employee}
+                    {...(edit && { disabled: true })}
                     onChange={(e) => {
                       setEmployee(e.target.value);
                       setSelectedEmployee(
@@ -162,6 +163,7 @@ export default function AddBonusesModal({
                     className="form-control"
                     id="date"
                     value={date}
+                    {...(edit && { disabled: true })}
                     required
                     onChange={(e) => setDate(e.target.value)}
                   />

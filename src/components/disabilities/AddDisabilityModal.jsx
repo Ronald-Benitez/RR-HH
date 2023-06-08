@@ -138,6 +138,7 @@ export default function AddDisabilityModal({
                     className="form-control"
                     id="employee"
                     value={employee}
+                    {...(edit && { disabled: true })}
                     onChange={(e) => {
                       setEmployee(e.target.value);
                       const selected = employees.find(
@@ -162,6 +163,7 @@ export default function AddDisabilityModal({
                     className="form-control"
                     id="start"
                     value={start}
+                    {...(edit && { disabled: true })}
                     onChange={(e) => setStart(e.target.value)}
                   />
 

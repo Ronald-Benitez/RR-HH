@@ -143,6 +143,7 @@ export default function AddAbsencesModal({
                     className="form-control"
                     id="employee"
                     value={employee}
+                    {...(edit && { disabled: true })}
                     onChange={(e) => {
                       setEmployee(e.target.value);
                       const selected = employees.find(
@@ -167,6 +168,7 @@ export default function AddAbsencesModal({
                     type="date"
                     className="form-control"
                     id="start"
+                    {...(edit && { disabled: true })}
                     value={start}
                     onChange={(e) => setStart(e.target.value)}
                     required

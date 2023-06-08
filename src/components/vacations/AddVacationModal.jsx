@@ -165,6 +165,7 @@ export default function AddVacationModal({
                     className="form-select"
                     required
                     id="employee"
+                    {...(edit && { disabled: true })}
                     value={employee}
                     onChange={(e) => {
                       setEmployee(e.target.value);
@@ -198,6 +199,7 @@ export default function AddVacationModal({
                     className="form-control"
                     id="date"
                     required
+                    {...(edit && { disabled: true })}
                     value={start}
                     onChange={(e) => {
                       setStart(e.target.value);
