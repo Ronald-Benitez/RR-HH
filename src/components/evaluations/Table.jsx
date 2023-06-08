@@ -3,7 +3,7 @@ import { getEvaluations, deleteEvaluation } from "../../firebase/evaluations";
 import DataTable from "react-data-table-component";
 import moment from "moment/moment";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
