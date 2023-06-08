@@ -63,6 +63,8 @@ export default function CreateModal({
       setAddress(data.address);
       setBank(data.bank);
       setIsOpen(edit);
+    } else {
+      clear();
     }
     getAreas()
       .then((areas) => {

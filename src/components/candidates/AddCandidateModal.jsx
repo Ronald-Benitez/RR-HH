@@ -191,7 +191,9 @@ export default function AddCandidateModal({
         contentLabel="Example Modal"
       >
         <div className="container overflow-auto">
-          <h2 className="text-center">Registrar candidato</h2>
+          <h2 className="text-center">
+            {edit ? "Actualizar" : "Registrar"} candidato
+          </h2>
           <form onSubmit={handleSubmit(handleSubmitData)}>
             <div className="row">
               <div className="col-12 col-md-6 mt-2">
