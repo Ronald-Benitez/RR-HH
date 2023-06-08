@@ -102,8 +102,6 @@ export default function AddAbsencesModal({
   useEffect(() => {
     if (dateSelected) {
       setDate(dateSelected);
-      setStart(dateSelected);
-      setEnd(dateSelected);
     }
   }, [dateSelected]);
 

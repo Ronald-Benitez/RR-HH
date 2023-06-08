@@ -1,6 +1,10 @@
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 import moment from "moment/moment";
+import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import 'pdfmake/build/vfs_fonts';
 
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
@@ -12,7 +16,7 @@ import Tracking from "./Tracking";
 import CreateModal from "../employees/CreateModal";
 import { deleteCandidate } from "../../firebase/candidates";
 import { deletePDF } from "../../firebase/pdf";
-import { set } from "react-hook-form";
+import Candidates from "../../pdf/Candidates";
 
 export default function Table({ candidates, toaster, reload, setReload }) {
   const [data, setData] = useState([]);
@@ -33,6 +37,11 @@ export default function Table({ candidates, toaster, reload, setReload }) {
       );
     });
     setFilteredData(results);
+  };
+
+  const handlePdf = () => {
+    const docDefinition = Candidates(data);
+    pdfMake.createPdf(docDefinition).open();
   };
 
   useEffect(() => {
@@ -185,6 +194,16 @@ export default function Table({ candidates, toaster, reload, setReload }) {
               />
             </div>
           </div>
+          <div className="col-12 col-md-2">
+          <div className="row mb-3">
+            <button
+              className="col-8 col-md-8 btn btn-light"
+              onClick={() => handlePdf()}
+            >
+              <Icon icon="pdf" /> Exportar
+            </button>
+          </div>
+        </div>
         </div>
         <DataTable
           title="Candidatos"

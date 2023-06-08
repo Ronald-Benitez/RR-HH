@@ -1,6 +1,10 @@
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 import moment from "moment/moment";
+import pdfMake from "pdfmake/build/pdfmake";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import 'pdfmake/build/vfs_fonts';
 
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
@@ -8,6 +12,7 @@ import ModalConfirm from "../utils/ModalConfirm";
 import { deleteDisability } from "../../firebase/disabilities";
 import AddDisabilityModal from "./AddDisabilityModal";
 import Icon from "../utils/Icon";
+import Disabilities from "../../pdf/Disabilities";
 
 export default function Table({
   disabilities,
@@ -47,6 +52,11 @@ export default function Table({
       .catch((error) => {
         toaster.error(error.message);
       });
+  };
+
+  const handlePdf = () => {
+    const docDefinition = Disabilities(data, moment(date).format("YYYY"));
+    pdfMake.createPdf(docDefinition).open();
   };
 
   const columns = [
@@ -115,6 +125,16 @@ export default function Table({
               placeholder="Nombre"
               onChange={(e) => handleFinder(e)}
             />
+          </div>
+        </div>
+        <div className="col-12 col-md-2">
+          <div className="row mb-3">
+            <button
+              className="col-8 col-md-8 btn btn-light"
+              onClick={() => handlePdf()}
+            >
+              <Icon icon="pdf" /> Exportar
+            </button>
           </div>
         </div>
       </div>
