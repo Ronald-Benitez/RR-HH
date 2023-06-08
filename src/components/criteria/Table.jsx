@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import 'pdfmake/build/vfs_fonts';
 
 import {
   getEvaluationTemplates,

@@ -3,9 +3,8 @@ import { getEvaluations, deleteEvaluation } from "../../firebase/evaluations";
 import DataTable from "react-data-table-component";
 import moment from "moment/moment";
 import pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import 'pdfmake/build/vfs_fonts';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
