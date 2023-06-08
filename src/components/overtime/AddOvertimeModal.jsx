@@ -30,9 +30,9 @@ export default function AddOvertimeModal({
   const [id, setId] = useState("");
 
   const calculateValue = (id) => {
-    const data = employees.find((employee) => employee.id === id);
+    const selectedSalary = edit ? data.salary :employees.find((employee) => employee.id === id).salary;
 
-    const hourSalary = (data?.salary / 30 / 8).toFixed(2);
+    const hourSalary = (selectedSalary / 30 / 8).toFixed(2);
     setSalary(hourSalary);
 
     if (type === "Diurna") {
@@ -95,7 +95,7 @@ export default function AddOvertimeModal({
           toaster.success("Horas extra actualizadas");
           setReload(!reload);
           setIsOpen(false);
-          setEdit(false);
+          setEdit && setEdit(false);
           clearFields();
         })
         .catch((error) => {
@@ -140,8 +140,9 @@ export default function AddOvertimeModal({
       setSelectedEmployee(data);
       setIsOpen(edit);
       setId(data.id);
+      
     }
-  }, [edit]);
+  }, [edit, data, selectedEmployee]);
 
   useEffect(() => {
     if (employee) {
@@ -173,7 +174,7 @@ export default function AddOvertimeModal({
         isOpen={modalIsOpen}
         onRequestClose={() => {
           setIsOpen(false);
-          setEdit(false);
+          setEdit && setEdit(false);
           clearFields();
         }}
         style={ModalStyle}
