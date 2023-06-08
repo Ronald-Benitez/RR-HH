@@ -111,6 +111,7 @@ export default function Table({ candidates, toaster, reload, setReload }) {
           )}
         </div>
       ),
+      sortable: true,
     },
     {
       name: "Acciones",

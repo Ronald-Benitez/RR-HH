@@ -29,7 +29,8 @@ export default function AddDisabilityModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (start < end) {
+
+    if (start > end) {
       toaster.error("La fecha de inicio debe ser menor a la fecha de fin");
       return;
     }

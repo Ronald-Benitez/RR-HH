@@ -27,7 +27,7 @@ export default function CreateModal({ toaster, reload, setReload }) {
   return (
     <div>
       <button className="btn btn-outline-light" onClick={() => setIsOpen(true)}>
-        Registrar una nueva áreaF
+        Registrar una nueva área
       </button>
       <Modal
         isOpen={modalIsOpen}
