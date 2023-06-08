@@ -31,8 +31,9 @@ export default function ResetPassword() {
   return (
     <>
       <button
-        className="btn btn-outline-light d-flex align-items-center"
+        className="btn btn-outline-light d-flex align-items-center btn-sm m-1"
         onClick={() => setShow(true)}
+        title="Cambiar contraseña"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

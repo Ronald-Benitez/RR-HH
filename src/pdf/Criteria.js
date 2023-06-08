@@ -118,16 +118,10 @@ const showEmployeeData = (data) => {
     ];
   }
   return [
-    { text: `Empleado: `, style: "marginY" },
-    { text: data.employeeName, style: "marginY" },
-    { text: `Cargo:`, style: "marginY" },
-    { text: data.employeePosition, style: "marginY" },
+    { text: `Empleado: ${data.employeeName}`, style: "marginY" },
+    { text: `Cargo: ${data.employeePosition}`, style: "marginY" },
     {
-      text: `Fecha de evaluación:`,
-      style: "marginY",
-    },
-    {
-      text: moment(data.date).format("LL"),
+      text: `Fecha de evaluación: ${moment(data.date).format("LL")}`,
       style: "marginY",
     },
     { text: "" }, // Add empty line for spacing
@@ -147,8 +141,6 @@ const showCriteria = (data) => {
   const criteria = [...(data.criteriaList || [])];
   const weights = [...(data.weightList || [])];
   const puntuations = [...(data.puntuationList || [])];
-  console.log("criteria", criteria);
-  console.log("data", data);
 
   criteria.forEach((criterion, index) => {
     content.push([
