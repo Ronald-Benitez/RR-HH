@@ -4,7 +4,7 @@ import moment from "moment/moment";
 import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import 'pdfmake/build/vfs_fonts';
+import "pdfmake/build/vfs_fonts";
 
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
@@ -83,15 +83,6 @@ export default function Table({ vacations, toaster, reload, setReload, date }) {
       name: "Acciones",
       cell: (row) => (
         <div>
-          <button
-            className="btn btn-outline-warning btn-sm mx-1"
-            onClick={() => {
-              setSelectedVacation(row);
-              setEdit(true);
-            }}
-          >
-            <Icon icon="pen" />
-          </button>
           <button
             className="btn btn-outline-danger btn-sm mx-1"
             onClick={() => {
