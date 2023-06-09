@@ -4,7 +4,7 @@ import moment from "moment/moment";
 import pdfMake from "pdfmake/build/pdfmake";
 // import pdfFonts from "pdfmake/build/vfs_fonts";
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import 'pdfmake/build/vfs_fonts';
+import "pdfmake/build/vfs_fonts";
 
 import "../../utils/tableStyles.css";
 import customStyles from "../../utils/tableCustomStyles";
@@ -32,7 +32,10 @@ export default function Table({ absences, toaster, reload, setReload, year }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Absences(data, year);
+    const docDefinition = Absences(
+      filteredData.length > 0 ? filteredData : data,
+      year
+    );
     pdfMake.createPdf(docDefinition).open();
   };
 

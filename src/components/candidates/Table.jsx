@@ -40,7 +40,7 @@ export default function Table({ candidates, toaster, reload, setReload }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Candidates(data);
+    const docDefinition = Candidates(filteredData.length > 0 ? filteredData : data);
     pdfMake.createPdf(docDefinition).open();
   };
 

@@ -30,7 +30,7 @@ export default function Table({ overtimes, toaster, reload, setReload, date }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Overtime(data, moment(date).format("MMMM YYYY"));
+    const docDefinition = Overtime(filteredData.length > 0 ? filteredData : data, moment(date).format("MMMM YYYY"));
     pdfMake.createPdf(docDefinition).open();
   };
 

@@ -49,7 +49,7 @@ export default function Table({ vacations, toaster, reload, setReload, year }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Vacations(data,year);
+    const docDefinition = Vacations(filteredData.length > 0 ? filteredData : data,year);
     pdfMake.createPdf(docDefinition).open();
   };
 
