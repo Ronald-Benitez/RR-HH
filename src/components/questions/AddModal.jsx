@@ -36,7 +36,9 @@ export default function AddModal({
 
     createQuestionsTemplate(sendData)
       .then(() => {
-        toaster.success("Plantilla de preguntas creada exitosamente");
+        toaster.success(
+          `Plantilla de preguntas ${edit ? "editada" : "creada"} exitosamente`
+        );
         setReload(!reload);
         clearForm();
       })
