@@ -42,7 +42,9 @@ export default function AddModal({
 
     createEvaluationTemplate(sendData)
       .then(() => {
-        toaster.success("Plantilla de evaluación creada exitosamente");
+        toaster.success(
+          `Plantilla de evaluación ${edit ? "editada" : "creada"} exitosamente`
+        );
         setReload(!reload);
         clearForm();
       })
