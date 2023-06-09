@@ -49,7 +49,7 @@ export default function Table({ vacations, toaster, reload, setReload, year }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Vacations(data, moment(date).format("YYYY"));
+    const docDefinition = Vacations(data,year);
     pdfMake.createPdf(docDefinition).open();
   };
 

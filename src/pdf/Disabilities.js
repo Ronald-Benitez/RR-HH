@@ -40,8 +40,7 @@ export default function Disabilities(data, date) {
                 style: "tableBody",
               },
               {
-                text:
-                  moment(disability.end).diff(disability.start, "days"),
+                text: moment(disability.end).diff(disability.start, "days") + 1,
                 style: "tableBody",
               },
               {
