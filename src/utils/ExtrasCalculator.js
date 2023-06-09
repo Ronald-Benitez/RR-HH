@@ -58,7 +58,7 @@ export const calculateVacations = (data, vacations, date) => {
         moment(row.end).month() === date.month()
       ) {
         if (verifyMonth(row.start, row.end)) {
-          employee.vacations = row.value;
+          employee.vacations = row.value || row.value.toFixed(2);
         } else {
           employee.vacations = calculateValueVacation(
             moment(row.start),
