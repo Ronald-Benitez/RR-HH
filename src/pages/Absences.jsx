@@ -11,16 +11,40 @@ export default function Absences() {
   const [date, setDate] = useState(moment());
   const [reload, setReload] = useState(false);
   const [absences, setAbsences] = useState([]);
+  const [year, setYear] = useState(moment().format("YYYY"));
 
   useEffect(() => {
-    getAbsences(moment(date).format("YYYY")).then((absences) => {
+    getAbsences(year).then((absences) => {
       const data = absences.docs.map((res) => ({
         id: res.id,
         ...res.data(),
       }));
       setAbsences(data || []);
     });
-  }, [date, reload]);
+  }, [date, reload, year]);
+
+  const renderYearSelector = () => {
+    const years = [];
+
+    for (let i = 2010; i <= moment().format("YYYY"); i++) {
+      years.push(i);
+    }
+    years.reverse();
+
+    return (
+      <select
+        className="form-select"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+      >
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+    );
+  };
 
   return (
     <div>
@@ -34,14 +58,8 @@ export default function Absences() {
       <div className="d-flex justify-content-center align-items-center">
         <div className="row w-75 justify-content-center">
           <div className="col-12 col-md-4 mt-2">
-            <h5 className="text-center">Fecha</h5>
-            <input
-              type="date"
-              id="date"
-              className="form-control"
-              value={date.format("YYYY-MM-DD")}
-              onChange={(e) => setDate(moment(e.target.value))}
-            />
+            <h5 className="text-center">Año</h5>
+            {renderYearSelector()}
           </div>
           <div className="col-12 col-md-4 mt-2">
             <div className="row">
@@ -64,7 +82,7 @@ export default function Absences() {
           absences={absences}
           reload={reload}
           setReload={setReload.bind(this)}
-          date={date}
+          year={year}
         />
       </div>
       <Toaster />

@@ -14,7 +14,7 @@ import AddVacationModal from "./AddVacationModal";
 import Icon from "../utils/Icon";
 import Vacations from "../../pdf/Vacations";
 
-export default function Table({ vacations, toaster, reload, setReload, date }) {
+export default function Table({ vacations, toaster, reload, setReload, year }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -35,7 +35,7 @@ export default function Table({ vacations, toaster, reload, setReload, date }) {
 
   useEffect(() => {
     setFilteredData([]);
-  }, [date]);
+  }, [year]);
 
   const handleDelete = () => {
     deleteVacation(selectedVacation)

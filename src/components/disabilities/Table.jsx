@@ -19,7 +19,7 @@ export default function Table({
   toaster,
   reload,
   setReload,
-  date,
+  year,
 }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function Table({
 
   useEffect(() => {
     setFilteredData([]);
-  }, [date]);
+  }, [year]);
 
   const handleDelete = () => {
     deleteDisability(selectedDisability)
@@ -55,7 +55,7 @@ export default function Table({
   };
 
   const handlePdf = () => {
-    const docDefinition = Disabilities(data, moment(date).format("YYYY"));
+    const docDefinition = Disabilities(data, year);
     pdfMake.createPdf(docDefinition).open();
   };
 

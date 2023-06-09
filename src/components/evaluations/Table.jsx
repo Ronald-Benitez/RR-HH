@@ -62,6 +62,7 @@ export default function Table({ toaster }) {
     for (let i = 2010; i <= moment().format("YYYY"); i++) {
       years.push(i);
     }
+    years.reverse();
 
     return (
       <select

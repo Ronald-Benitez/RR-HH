@@ -11,38 +11,56 @@ export default function Disabilities() {
   const [date, setDate] = useState(moment());
   const [reload, setReload] = useState(false);
   const [disabilities, setDisabilities] = useState([]);
+  const [year, setYear] = useState(moment().format("YYYY"));
 
   useEffect(() => {
-    getDisabilities(moment(date).format("YYYY")).then((disabilities) => {
+    getDisabilities(year).then((disabilities) => {
       const data = disabilities.docs.map((res) => ({
         id: res.id,
         ...res.data(),
       }));
       setDisabilities(data || []);
     });
-  }, [date, reload]);
+  }, [date, reload, year]);
+
+  const renderYearSelector = () => {
+    const years = [];
+
+    for (let i = 2010; i <= moment().format("YYYY"); i++) {
+      years.push(i);
+    }
+    years.reverse();
+
+
+    return (
+      <select
+        className="form-select"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+      >
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+    );
+  };
 
   return (
     <div>
       <Navbar />
       <div className="">
         <p className="mt-5 text-center fs-2">
-          Incapacidades{" "}
-          <small className="fs-5">{moment(date).format("YYYY")}</small>
+          Incapacidades <small className="fs-5">{year}</small>
         </p>
       </div>
 
       <div className="d-flex justify-content-center align-items-center">
         <div className="row w-75 justify-content-center">
           <div className="col-12 col-md-4 mt-2">
-            <h5 className="text-center">Fecha</h5>
-            <input
-              type="date"
-              id="date"
-              className="form-control"
-              value={date.format("YYYY-MM-DD")}
-              onChange={(e) => setDate(moment(e.target.value))}
-            />
+            <h5 className="text-center">Año</h5>
+            {renderYearSelector()}
           </div>
           <div className="col-12 col-md-4 mt-2">
             <div className="row">
@@ -65,7 +83,7 @@ export default function Disabilities() {
           disabilities={disabilities}
           reload={reload}
           setReload={setReload.bind(this)}
-          date={date}
+          year={year}
         />
       </div>
       <Toaster />

@@ -15,7 +15,7 @@ import AddAbsencesModal from "./AddAbsencesModal";
 import SeeModal from "./SeeModal";
 import Absences from "../../pdf/Absences";
 
-export default function Table({ absences, toaster, reload, setReload, date }) {
+export default function Table({ absences, toaster, reload, setReload, year }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -32,7 +32,7 @@ export default function Table({ absences, toaster, reload, setReload, date }) {
   };
 
   const handlePdf = () => {
-    const docDefinition = Absences(data, moment(date).format("YYYY"));
+    const docDefinition = Absences(data, year);
     pdfMake.createPdf(docDefinition).open();
   };
 
@@ -42,7 +42,7 @@ export default function Table({ absences, toaster, reload, setReload, date }) {
 
   useEffect(() => {
     setFilteredData([]);
-  }, [date]);
+  }, [year]);
 
   const handleDelete = () => {
     deleteAbsence(selectedAbsence)
