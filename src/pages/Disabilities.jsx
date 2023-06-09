@@ -31,7 +31,6 @@ export default function Disabilities() {
     }
     years.reverse();
 
-
     return (
       <select
         className="form-select"
@@ -84,6 +83,7 @@ export default function Disabilities() {
           reload={reload}
           setReload={setReload.bind(this)}
           year={year}
+          date={date}
         />
       </div>
       <Toaster />

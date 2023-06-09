@@ -20,6 +20,7 @@ export default function Table({
   reload,
   setReload,
   year,
+  date,
 }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);

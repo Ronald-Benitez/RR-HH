@@ -157,6 +157,7 @@ export default function Table({ bonuses, toaster, reload, setReload, date }) {
         onConfirm={() => {
           handleDelete();
           setIsOpen(false);
+          setReload(!reload);
         }}
         onCancel={() => setIsOpen(false)}
       />
