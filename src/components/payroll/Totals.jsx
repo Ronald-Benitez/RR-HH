@@ -28,10 +28,10 @@ export default function Totals({ see, setSee, data }) {
             <div className="text-right p-3">
               <h3 className="h5 font-weight-bold text-right">Salarios</h3>
               <p className="mb-1 text-right">Base: ${totals.totalSalaries}</p>
-              <p className="mb-1 text-right">
+              <p className="mb-1 text-right text-danger">
                 Faltas injustificas: ${totals.totalAbsences}
               </p>
-              <p className="mb-1 text-right">
+              <p className="mb-1 text-right  text-danger">
                 Incapacidades: ${totals.totalDisabilities}
               </p>
             </div>
