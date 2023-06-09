@@ -45,7 +45,7 @@ export default function QuestionRender({
 
     createEvaluation(moment().format("YYYY"), sendData)
       .then(() => {
-        toaster.success("Evaluación creada exitosamente");
+        toaster.success("Evaluación registrada exitosamente");
         setData({});
         setEmployee({});
       })
