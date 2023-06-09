@@ -72,7 +72,7 @@ export default function QuestionRender({
                 {employee.position}
               </p>
               <p>
-                <strong>Tipo de plantilla: </strong> plantilla de criterios
+                <strong>Tipo de plantilla: </strong> plantilla de preguntas
               </p>
               <p>
                 <strong>Plantilla utilizada: </strong> {data.name}
