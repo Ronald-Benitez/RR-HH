@@ -123,7 +123,7 @@ export default function TableEmployee({ data }) {
             <Icon icon="eye" />
           </button>
           <button
-            className="btn btn btn-outline-light btn-sm m-2"
+            className="btn btn btn-outline-success btn-sm m-2"
             onClick={() => {
               handlePDF(row);
             }}

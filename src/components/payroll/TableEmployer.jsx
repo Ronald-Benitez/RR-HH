@@ -98,7 +98,7 @@ export default function TableEmployer({ data}) {
             <Icon icon="eye" />
           </button>
           <button
-            className="btn btn btn-outline-light btn-sm m-1"
+            className="btn btn btn-outline-success btn-sm m-1"
             onClick={() => handlePDF(row)}
           >
             <Icon icon="pdf" />
