@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,6 +12,21 @@ const DropdownLinker = ({ links, placeholder }) => {
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
+  const handleClickOutside = (event) => {
+    if (event.target.className !== "dropdown-item") {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  
 
   return (
     <div className={`dropdown ${isOpen ? "show" : ""}`}>
