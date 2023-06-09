@@ -15,7 +15,7 @@ import AddAbsencesModal from "./AddAbsencesModal";
 import SeeModal from "./SeeModal";
 import Absences from "../../pdf/Absences";
 
-export default function Table({ absences, toaster, reload, setReload, year }) {
+export default function Table({ absences, toaster, reload, setReload, year,date }) {
   const [data, setData] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);

@@ -83,6 +83,7 @@ export default function Absences() {
           reload={reload}
           setReload={setReload.bind(this)}
           year={year}
+          date={date}
         />
       </div>
       <Toaster />
