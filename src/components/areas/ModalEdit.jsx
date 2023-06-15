@@ -44,7 +44,9 @@ export default function ModalEdit({
       onRequestClose={() => setEdit(false)}
       style={ModalStyle}
     >
-      <h2>Editar área</h2>
+      <div className="row justify-content-center">
+        <h2 className="text-center">Editar área</h2>
+      </div>
       <form onSubmit={handleEdit} className="col-12 col-md-6 p-4">
         <div className="mb-3">
           <input

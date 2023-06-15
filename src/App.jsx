@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import authMiddleware from "./utils/authMiddleware";
 
@@ -62,6 +62,7 @@ function App() {
           path="/evaluations-list"
           component={authMiddleware(EvaluationsList)}
         />
+        <Redirect to="/" />
       </Switch>
     </Router>
   );

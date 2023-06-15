@@ -18,10 +18,16 @@ export default function CreateModal({ toaster, reload, setReload }) {
         toaster.success("Área creada exitosamente");
         setReload(!reload);
         setIsOpen(false);
+        clear();
       })
       .catch((error) => {
         toaster.error(error.message);
       });
+  };
+
+  const clear = () => {
+    setAreaName("");
+    setAreaDescription("");
   };
 
   return (
@@ -35,42 +41,46 @@ export default function CreateModal({ toaster, reload, setReload }) {
         style={ModalStyle}
       >
         <div className="container overflow-auto">
-          <h2>Registrar área</h2>
-          <form onSubmit={handleSubmit} className="col-12 col-md-6 p-4">
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control bg-black text-white"
-                placeholder="Nombre del área"
-                value={areaName}
-                onChange={(e) => setAreaName(e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control bg-black text-white"
-                placeholder="Descripción del área"
-                value={areaDescription}
-                onChange={(e) => setAreaDescription(e.target.value)}
-              />
-            </div>
-            <div className="row">
-              <button
-                type="submit"
-                className="btn btn-outline-light col-12 col-md-6 mt-2 mt-md-0"
-              >
-                Crear
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-light col-12 col-md-6 mt-2 mt-md-0"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancelar
-              </button>
-            </div>
-          </form>
+          <div className="row justify-conten-center">
+            <h2 className="text-white text-center">Crear área</h2>
+          </div>
+          <div className="row justify-content-center">
+            <form onSubmit={handleSubmit} className="col-12 col-md-6 p-4">
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control bg-black text-white"
+                  placeholder="Nombre del área"
+                  value={areaName}
+                  onChange={(e) => setAreaName(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control bg-black text-white"
+                  placeholder="Descripción del área"
+                  value={areaDescription}
+                  onChange={(e) => setAreaDescription(e.target.value)}
+                />
+              </div>
+              <div className="row">
+                <button
+                  type="submit"
+                  className="btn btn-outline-light col-12 col-md-6 mt-2 mt-md-0"
+                >
+                  Crear
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-light col-12 col-md-6 mt-2 mt-md-0"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </Modal>
     </div>

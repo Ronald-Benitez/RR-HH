@@ -10,13 +10,8 @@ export default function Navbar() {
     <div className="sticky-top">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid ">
-          <Link className="navbar-brand" to="/">
-            <img
-              src="cropped-TBR-LOGO.png"
-              width="40"
-              height="40"
-              className="d-inline-block align-text-top"
-            />
+          <Link className="navbar-brand btn btn-light text-dark btn-sm" to="/">
+            <small>Inicio</small>
           </Link>
           <button
             className="navbar-toggler"
@@ -68,8 +63,14 @@ export default function Navbar() {
                   links={[
                     { label: "Evaluar", url: "/evaluations" },
                     { label: "Evaluaciones", url: "/evaluations-list" },
-                    { label: "Plantillas con criterios", url: "/criteria-template" },
-                    { label: "Plantillas con preguntas", url: "/question-template" },
+                    {
+                      label: "Plantillas con criterios",
+                      url: "/criteria-template",
+                    },
+                    {
+                      label: "Plantillas con preguntas",
+                      url: "/question-template",
+                    },
                   ]}
                 />
               </li>
